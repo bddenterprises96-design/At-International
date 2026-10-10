@@ -799,7 +799,7 @@ const POSTS = [
   {
     "id": 10,
     "featured": false,
-    "category": "E-Bike Parts & Components",
+    "category": "E-Bike Parts",
     "title": "Waterproofing E-Bike Motors: Sealing Mid-Drive & Hub Systems to IP Standards",
     "excerpt": "A practical guide to IP ingress-protection ratings, sealing methods for mid-drive and hub motors, and what to verify when sourcing water-resistant e-bike drive components.",
     "date": "March 10, 2026",
@@ -844,7 +844,7 @@ const POSTS = [
   {
     "id": 11,
     "featured": false,
-    "category": "E-Bike Parts & Components",
+    "category": "E-Bike Parts",
     "title": "E-Bike Lithium Battery Pack Housings: Thermal Management & Moisture Sealing",
     "excerpt": "A practical guide to battery pack sealing methods, pressure-equalization and safety venting, and thermal-management considerations for e-bike lithium-ion battery housings.",
     "date": "March 02, 2026",
@@ -885,7 +885,7 @@ const POSTS = [
   {
     "id": 12,
     "featured": false,
-    "category": "E-Bike Parts & Components",
+    "category": "E-Bike Parts",
     "title": "E-Bike BLDC Hub Motor Buyer's Guide: Torque, Thermal Performance & Quality Verification",
     "excerpt": "How to evaluate hub-motor torque, electrical characteristics, thermal behavior, sensor compatibility, mechanical construction, and supplier quality before sourcing.",
     "date": "February 24, 2026",
@@ -926,7 +926,7 @@ const POSTS = [
   {
     "id": 13,
     "featured": false,
-    "category": "E-Bike Parts & Components",
+    "category": "E-Bike Parts",
     "title": "E-Bike Motor Controller Buyer's Guide: Voltage Margins, MOSFET Ratings & Compatibility Verification",
     "excerpt": "A practical guide to voltage-margin sizing, MOSFET ratings, connector compatibility, and what to verify before sourcing an e-bike motor controller.",
     "date": "February 16, 2026",
@@ -987,7 +987,7 @@ const POSTS = [
   {
     "id": 14,
     "featured": false,
-    "category": "E-Bike Parts & Components",
+    "category": "E-Bike Parts",
     "title": "E-Bike Li-ion Battery Charger Buyer's Guide: Voltage Matching, UL 2849 & Compatibility Verification",
     "excerpt": "A practical guide to voltage and chemistry matching, CC-CV charging verification, connector compatibility, and safety-standard documentation to check before sourcing an e-bike lithium battery charger.",
     "date": "February 08, 2026",
@@ -1331,6 +1331,7 @@ const CATEGORY_COLORS = {
   'Industrial Sealing Solutions': 'bg-blue-100 text-blue-700 border-blue-200',
   'Motorcycle Parts': 'bg-orange-100 text-orange-700 border-orange-200',
   'E-Bike Parts': 'bg-emerald-100 text-emerald-700 border-emerald-200',
+  'E-Bike Parts & Components': 'bg-emerald-100 text-emerald-700 border-emerald-200',
   'Quality & Compliance': 'bg-purple-100 text-purple-700 border-purple-200',
   'Logistics & Sourcing': 'bg-amber-100 text-amber-700 border-amber-200',
 }
@@ -1689,7 +1690,11 @@ export default function Blogs() {
   const featuredPost = POSTS.find((p) => p.featured) || POSTS[0]
 
   const filteredPosts = POSTS.filter((post) => {
-    const matchesCategory = activeCategory === 'All' || post.category === activeCategory
+    const matchesCategory =
+      activeCategory === 'All' ||
+      post.category === activeCategory ||
+      (activeCategory === 'E-Bike Parts' && (post.category === 'E-Bike Parts' || post.category === 'E-Bike Parts & Components')) ||
+      (activeCategory === 'E-Bike Parts & Components' && (post.category === 'E-Bike Parts' || post.category === 'E-Bike Parts & Components'))
     const matchesSearch =
       searchQuery.trim() === '' ||
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
