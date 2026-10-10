@@ -404,31 +404,19 @@ const POSTS = [
         "subsections": [
           {
             "title": "What to Confirm Before Ordering Replacement Seals",
-            "intro": "Before sourcing a replacement motorcycle engine seal or gasket, procurement teams should confirm:",
             "list": [
               "The exact motorcycle model, engine model, and production generation, since sealing dimensions and specifications can vary between versions",
               "The actual leak location and sealing interface, rather than identifying the replacement solely from where oil reaches the ground",
               "The required seal or gasket type, such as a radial shaft seal, valve stem seal, cover gasket, or O-ring",
               "The material specification, particularly for high-temperature, high-mileage, or chemically demanding applications",
               "The OEM or cross-reference part number, where available, and whether the proposed replacement has been verified for dimensional and application compatibility",
-              "Any relevant shaft, housing, mating-surface, or installation requirements that could affect the performance of the replacement component"
+              "Any relevant shaft, housing, mating-surface, or installation requirements that could affect the performance"
             ],
-            "conclusion": "Accurate application information helps reduce the risk of supplying a dimensionally similar component that is not suitable for the actual operating conditions."
+            "conclusion": "Accurate application information reduces the risk of an unsuitable, dimensionally-similar replacement."
           }
         ]
       },
-      {
-        "heading": "What to Confirm Before Ordering Replacement Seals",
-        "text": "Accurate application information helps reduce the risk of supplying a dimensionally similar component that is not suitable for the actual operating conditions.",
-        "list": [
-          "The exact motorcycle model, engine model, and production generation, since sealing dimensions and specifications can vary between versions",
-          "The actual leak location and sealing interface, rather than identifying the replacement solely from where oil reaches the ground",
-          "The required seal or gasket type, such as a radial shaft seal, valve stem seal, cover gasket, or O-ring",
-          "The material specification, particularly for high-temperature, high-mileage, or chemically demanding applications",
-          "The OEM or cross-reference part number, where available, and whether the proposed replacement has been verified for dimensional and application compatibility",
-          "Any relevant shaft, housing, mating-surface, or installation requirements that could affect the performance of the replacement component"
-        ]
-      },
+      
       {
         "heading": "Why Correct Sealing Matters",
         "text": "A motorcycle engine seal is a relatively small component, but its failure can have consequences beyond a visible oil stain. Continued leakage can reduce the available lubricant level, contaminate surrounding components, create maintenance issues, or allow oil to reach areas where it can affect braking or traction.\n\nFor this reason, effective sourcing begins with identifying the correct sealing location, application, and specification—not simply matching an approximate size.\n\nFor buyers and distributors, a structured sourcing process helps ensure that the replacement component is selected according to the actual engine application and required performance characteristics."
@@ -500,11 +488,10 @@ const POSTS = [
           "Packaging, labeling, and private-label requirements, where available",
           "Quantity and international shipping requirements"
         ],
-        "conclusion": "For distributors and importers, confirming these details before quotation and production helps reduce the risk of supplying components that are dimensionally similar but unsuitable for the intended motorcycle application.",
+        "conclusion": "This reduces the risk of supplying components that are dimensionally similar but unsuitable for the intended motorcycle application.",
         "subsections": [
           {
             "title": "What to Confirm Before Ordering",
-            "intro": "Before sourcing motorcycle clutch or transmission components, buyers should confirm:",
             "list": [
               "The exact motorcycle make, model, engine specification, and production year",
               "The OEM or reference part number, where available",
@@ -516,23 +503,8 @@ const POSTS = [
               "Required quantity, packaging, labeling, and documentation",
               "Any private-label or distributor-specific requirements, where applicable"
             ],
-            "conclusion": "Providing complete application information at the quotation stage allows the sourcing team and supplier to verify compatibility before production or shipment."
+            
           }
-        ]
-      },
-      {
-        "heading": "What to Confirm Before Ordering",
-        "text": "Providing complete application information at the quotation stage allows the sourcing team and supplier to verify compatibility before production or shipment.",
-        "list": [
-          "The exact motorcycle make, model, engine specification, and production year",
-          "The OEM or reference part number, where available",
-          "The required friction plate material and clutch configuration",
-          "The number, dimensions, and specification of friction and steel plates",
-          "The required clutch spring specification",
-          "The correct oil-seal location and dimensions for drivetrain sealing components",
-          "The motorcycle manufacturer's recommended lubricant specification, particularly for wet-clutch applications",
-          "Required quantity, packaging, labeling, and documentation",
-          "Any private-label or distributor-specific requirements, where applicable"
         ]
       },
       {
@@ -585,7 +557,7 @@ const POSTS = [
             "content": "The crankshaft does not experience a constant load. Combustion pulses and the changing acceleration of the reciprocating assembly create fluctuating torque and inertia forces.\n\nIncorrect crankshaft specifications, damage, or inappropriate modifications can contribute to excessive vibration or torsional problems. These issues should be distinguished from ordinary engine vibration caused by the engine's inherent balance characteristics."
           },
           {
-            "title": "Symptoms That May Indicate a Crankshaft Problem",
+            "title": "Failure typically develops through journal wear from poor lubrication, fatigue cracking around fillets or crankpins, or torsional issues from incorrect specification.",
             "intro": "Potential warning signs can include:",
             "list": [
               "Deep or abnormal knocking noises, particularly when associated with bearing or crankshaft wear",
@@ -594,7 +566,7 @@ const POSTS = [
               "Oil contamination containing metallic particles",
               "Loss of correct journal dimensions or excessive crankshaft runout"
             ],
-            "conclusion": "These symptoms are not unique to crankshaft failure. Bearing damage, piston problems, connecting-rod issues, lubrication faults, and other engine conditions can produce similar symptoms, so proper diagnosis should be completed before replacing the crankshaft."
+            "conclusion": "These symptoms are not unique to crankshaft failure and should be properly diagnosed before replacement."
           }
         ]
       },
@@ -623,7 +595,7 @@ const POSTS = [
           },
           {
             "title": "When Evaluating a Supplier",
-            "intro": "For a custom, replacement, or performance crankshaft, buyers should consider requesting:",
+            "intro": "Standard applications should match the OEM specification; performance builds should be supported by material and balancing documentation:",
             "list": [
               "Material specification or material certification",
               "Journal diameter and dimensional tolerances",
@@ -634,7 +606,7 @@ const POSTS = [
               "Balance verification or balancing documentation",
               "OEM or cross-reference part numbers, where available"
             ],
-            "conclusion": "Documentation should correspond to the actual component being supplied rather than relying solely on generic product descriptions."
+            "conclusion": "Documentation should correspond to the actual component being supplied."
           }
         ]
       },
@@ -720,8 +692,8 @@ const POSTS = [
             "conclusion": "These checks are particularly useful when the cylinder head is being supplied as a replacement, refurbished component, or performance-oriented assembly where hidden defects could create significant downstream costs."
           },
           {
-            "title": "When Evaluating a Supplier",
-            "intro": "For a replacement or performance cylinder head, buyers should consider requesting:",
+            "intro": "Standard applications should match the original manufacturer's specification; rebuilds may justify pressure-testing and dye-penetrant inspection:",
+            "title": "When Evaluating a Supplier, Request:",
             "list": [
               "Casting process and quality-control information",
               "Pressure-test or dye-penetrant inspection results, where applicable",
@@ -731,7 +703,7 @@ const POSTS = [
               "OEM or cross-reference part numbers",
               "Dimensional inspection documentation for critical features"
             ],
-            "conclusion": "Documentation should relate to the actual component or production lot being supplied whenever possible rather than relying exclusively on generic product descriptions."
+            "conclusion": "Documentation should relate to the actual component or production lot being supplied."
           }
         ]
       },
@@ -814,7 +786,7 @@ const POSTS = [
               "OEM or cross-reference part number",
               "Available dimensional and inspection documentation"
             ],
-            "conclusion": "When evaluating a supplier, request documentation—bore diameter/grade, roundness and taper inspection results, honing specifications, wall-material details, and piston/ring compatibility information—that corresponds to the actual component or production lot rather than relying on generic product descriptions. For international sourcing, confirming these details before quotation and production significantly reduces the risk of receiving a visually similar cylinder that is not dimensionally or functionally compatible."
+            "conclusion": "Standard applications should match the original bore, grade, and wall construction, treating cylinder, piston, and ring as a matched system. Performance or rebuild applications should confirm the construction supports the intended honing process, since requirements vary with bore material and ring technology."
           }
         ]
       },
@@ -860,10 +832,7 @@ const POSTS = [
           "When evaluating a supplier: Request the declared IP classification, applicable IEC 60529/EN 60529 test documentation, test conditions and configuration, seal/gasket and connector specifications, and any Declaration of Conformity—traceable to the actual component supplied, not a generic IP claim."
         ],
         "subsections": [
-          {
-            "heading": "Matching Protection Level to Application",
-            "text": ""
-          }
+          
         ]
       },
       {
@@ -1411,6 +1380,16 @@ function renderFormattedTextBlock(text) {
 }
 
 // ── FULL ARTICLE DETAIL MODAL ──────────────────────────────────────
+const isHeadingBold = (title) =>
+  /\d/.test(title || '') ||
+  [
+    'What to Request Before Approving a Custom Component',
+    'Why This Process Matters for Procurement',
+    'What to Confirm Before Ordering Replacement Seals',
+    'Why Correct Sealing Matters',
+    'Why Correct Component Selection Matters'
+  ].some((h) => (title || '').includes(h))
+
 function ArticleModal({ post, onClose, onSelectPost }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -1489,68 +1468,8 @@ function ArticleModal({ post, onClose, onSelectPost }) {
             {post.sections &&
               post.sections.map((sec, idx) => (
                 <div key={idx} className="space-y-3">
-                  <h3 className={`text-xl ${/\d/.test(sec.heading || '') ? 'font-bold' : 'font-normal'} text-[#005691] pt-3 pb-1 border-b border-[#005691]/15 mb-3 flex items-center gap-2`}>{sec.heading}</h3>
+                  <h3 className={`text-xl ${isHeadingBold(sec.heading) ? 'font-bold' : 'font-normal'} text-[#005691] pt-3 pb-1 border-b border-[#005691]/15 mb-3 flex items-center gap-2`}>{sec.heading}</h3>
                   {sec.text && renderFormattedTextBlock(sec.text)}
-
-                  {/* Subsections if present */}
-                  {sec.subsections && (
-                    <div className="space-y-4 my-4">
-                      {sec.subsections.map((sub, sIdx) => (
-                        <div key={sIdx} className="space-y-2">
-                          <h4 className={`text-base ${/\d/.test(sub.title || sub.heading || '') ? 'font-bold' : 'font-normal'} text-[#005691] mt-3 mb-1`}>
-                            {sub.title || sub.heading}
-                          </h4>
-                          <div className="text-sm sm:text-base leading-relaxed text-[#334155] space-y-3">
-                            {(sub.intro || sub.content || sub.text) && renderFormattedTextBlock(sub.intro || sub.content || sub.text)}
-
-                            {sub.list && (
-                              <ul className="space-y-2.5 my-3 pl-2">
-                                {sub.list.map((li, lIdx) => (
-                                  <li key={lIdx} className="flex items-start gap-3 text-sm sm:text-base">
-                                    <span className="material-symbols-outlined text-[#005691] text-base mt-1 flex-shrink-0">check_circle</span>
-                                    <span>
-                                      {(() => {
-                                        const colonIdx = li.indexOf(':')
-                                        if (colonIdx > 0 && colonIdx < 200) {
-                                          return (
-                                            <>
-                                              <span className="font-normal text-[#005691]">{li.substring(0, colonIdx + 1)}</span>
-                                              {li.substring(colonIdx + 1)}
-                                            </>
-                                          )
-                                        }
-                                        const dashIdx = li.indexOf(' — ')
-                                        if (dashIdx > 0 && dashIdx < 200) {
-                                          return (
-                                            <>
-                                              <span className="font-normal text-[#005691]">{li.substring(0, dashIdx + 3)}</span>
-                                              {li.substring(dashIdx + 3)}
-                                            </>
-                                          )
-                                        }
-                                        const hyphenIdx = li.indexOf(' - ')
-                                        if (hyphenIdx > 0 && hyphenIdx < 200) {
-                                          return (
-                                            <>
-                                              <span className="font-normal text-[#005691]">{li.substring(0, hyphenIdx + 3)}</span>
-                                              {li.substring(hyphenIdx + 3)}
-                                            </>
-                                          )
-                                        }
-                                        return li
-                                      })()}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-
-                            {sub.conclusion && renderFormattedTextBlock(sub.conclusion)}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
 
                   {/* List items if present */}
                   {sec.list && (
@@ -1638,6 +1557,66 @@ function ArticleModal({ post, onClose, onSelectPost }) {
                   {sec.conclusion && (
                     <div className="text-sm sm:text-base leading-relaxed text-[#334155]">
                       {renderFormattedTextBlock(sec.conclusion)}
+                    </div>
+                  )}
+
+                  {/* Subsections if present */}
+                  {sec.subsections && (
+                    <div className="space-y-4 my-4">
+                      {sec.subsections.map((sub, sIdx) => (
+                        <div key={sIdx} className="space-y-2">
+                          <h4 className={`text-base ${isHeadingBold(sub.title || sub.heading) ? 'font-bold' : 'font-normal'} text-[#005691] mt-3 mb-1`}>
+                            {sub.title || sub.heading}
+                          </h4>
+                          <div className="text-sm sm:text-base leading-relaxed text-[#334155] space-y-3">
+                            {(sub.intro || sub.content || sub.text) && renderFormattedTextBlock(sub.intro || sub.content || sub.text)}
+
+                            {sub.list && (
+                              <ul className="space-y-2.5 my-3 pl-2">
+                                {sub.list.map((li, lIdx) => (
+                                  <li key={lIdx} className="flex items-start gap-3 text-sm sm:text-base">
+                                    <span className="material-symbols-outlined text-[#005691] text-base mt-1 flex-shrink-0">check_circle</span>
+                                    <span>
+                                      {(() => {
+                                        const colonIdx = li.indexOf(':')
+                                        if (colonIdx > 0 && colonIdx < 200) {
+                                          return (
+                                            <>
+                                              <span className="font-normal text-[#005691]">{li.substring(0, colonIdx + 1)}</span>
+                                              {li.substring(colonIdx + 1)}
+                                            </>
+                                          )
+                                        }
+                                        const dashIdx = li.indexOf(' — ')
+                                        if (dashIdx > 0 && dashIdx < 200) {
+                                          return (
+                                            <>
+                                              <span className="font-normal text-[#005691]">{li.substring(0, dashIdx + 3)}</span>
+                                              {li.substring(dashIdx + 3)}
+                                            </>
+                                          )
+                                        }
+                                        const hyphenIdx = li.indexOf(' - ')
+                                        if (hyphenIdx > 0 && hyphenIdx < 200) {
+                                          return (
+                                            <>
+                                              <span className="font-normal text-[#005691]">{li.substring(0, hyphenIdx + 3)}</span>
+                                              {li.substring(hyphenIdx + 3)}
+                                            </>
+                                          )
+                                        }
+                                        return li
+                                      })()}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+
+                            {sub.conclusion && renderFormattedTextBlock(sub.conclusion)}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -1826,7 +1805,7 @@ export default function Blogs() {
 
                 <h2
                   onClick={() => setSelectedPost(featuredPost)}
-                  className="text-2xl font-normal text-[#005691] hover:underline cursor-pointer leading-snug mb-3"
+                  className="text-2xl font-bold text-[#005691] hover:underline cursor-pointer leading-snug mb-3"
                 >
                   {featuredPost.title}
                 </h2>
@@ -1851,7 +1830,7 @@ export default function Blogs() {
         {/* Section Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl font-normal text-[#005691]">
+            <h2 className="text-2xl font-bold text-[#005691]">
               {activeCategory === 'All' ? 'Latest Technical Articles' : `${activeCategory} Articles`}
             </h2>
             <p className="text-xs sm:text-sm text-[#505f76] mt-1">
@@ -1880,7 +1859,7 @@ export default function Blogs() {
                     <span className="text-[11px] text-[#505f76] font-medium">{post.readTime}</span>
                   </div>
 
-                  <h3 className="font-normal text-[#005691] text-base leading-snug mb-2 group-hover:text-[#003d66] group-hover:underline line-clamp-2">
+                  <h3 className="font-bold text-[#005691] text-base leading-snug mb-2 group-hover:text-[#003d66] group-hover:underline line-clamp-2">
                     {post.title}
                   </h3>
                   <p className="text-[#505f76] text-xs sm:text-sm leading-relaxed line-clamp-3 mb-4">
