@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import FloatingContacts from './components/FloatingContacts'
+import CookieConsent from './components/CookieConsent'
 
 // Lazy-loaded page components for route code-splitting and fast initial load
 const AboutUs = lazy(() => import('./Pages/AboutUs'))
@@ -11,6 +12,8 @@ const WhyATI = lazy(() => import('./Pages/WhyATI'))
 const ContactUs = lazy(() => import('./Pages/ContactUs'))
 const Blogs = lazy(() => import('./Pages/Blogs'))
 const FAQs = lazy(() => import('./Pages/FAQs'))
+const PrivacyPolicy = lazy(() => import('./Pages/PrivacyPolicy'))
+const CookiePolicy = lazy(() => import('./Pages/CookiePolicy'))
 
 // Loading Fallback Component
 function PageLoader() {
@@ -62,8 +65,19 @@ export default function App() {
       'Blog':       '/blogs',
       'blogs':      '/blogs',
       '/blogs':     '/blogs',
-      'FAQs':       '/faqs',
-      "FAQ's":      '/faqs',
+      'FAQs':           '/faqs',
+      "FAQ's":          '/faqs',
+      'Privacy Policy': '/privacy-policy',
+      'Privacy':        '/privacy-policy',
+      'privacy-policy': '/privacy-policy',
+      '/privacy-policy':'/privacy-policy',
+      'Cookie Policy':  '/cookie-policy',
+      'Cookies Policy': '/cookie-policy',
+      'Cookies':        '/cookie-policy',
+      'cookie-policy':  '/cookie-policy',
+      '/cookie-policy': '/cookie-policy',
+      'cookies-policy': '/cookie-policy',
+      '/cookies-policy':'/cookie-policy',
     }
 
     if (!page) {
@@ -96,19 +110,25 @@ export default function App() {
       <main>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/"         element={<AboutUs   onNavigate={onNavigate} />} />
-            <Route path="/products" element={<Products  onNavigate={onNavigate} />} />
-            <Route path="/why-ati"  element={<WhyATI    onNavigate={onNavigate} />} />
-            <Route path="/contact"  element={<ContactUs onNavigate={onNavigate} />} />
-            <Route path="/blogs"    element={<Blogs     onNavigate={onNavigate} />} />
-            <Route path="/faqs"     element={<FAQs      onNavigate={onNavigate} />} />
+            <Route path="/"               element={<AboutUs       onNavigate={onNavigate} />} />
+            <Route path="/products"       element={<Products      onNavigate={onNavigate} />} />
+            <Route path="/why-ati"        element={<WhyATI        onNavigate={onNavigate} />} />
+            <Route path="/contact"        element={<ContactUs     onNavigate={onNavigate} />} />
+            <Route path="/blogs"          element={<Blogs         onNavigate={onNavigate} />} />
+            <Route path="/faqs"           element={<FAQs          onNavigate={onNavigate} />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy onNavigate={onNavigate} />} />
+            <Route path="/privacy"        element={<PrivacyPolicy onNavigate={onNavigate} />} />
+            <Route path="/cookie-policy"  element={<CookiePolicy  onNavigate={onNavigate} />} />
+            <Route path="/cookies-policy" element={<CookiePolicy  onNavigate={onNavigate} />} />
+            <Route path="/cookies"        element={<CookiePolicy  onNavigate={onNavigate} />} />
             {/* Fallback */}
-            <Route path="*"         element={<AboutUs   onNavigate={onNavigate} />} />
+            <Route path="*"               element={<AboutUs       onNavigate={onNavigate} />} />
           </Routes>
         </Suspense>
       </main>
       <Footer onNavigate={onNavigate} />
       <FloatingContacts />
+      <CookieConsent onNavigate={onNavigate} />
     </div>
   )
 }

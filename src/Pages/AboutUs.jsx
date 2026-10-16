@@ -469,7 +469,7 @@ export default function AboutUs({ onNavigate }) {
             { icon: 'public',        title: 'Global Reach',        desc: 'Guangzhou, China. We manage exports to over 40 countries with experience in customs, Incoterms, and international freight.' },
             { icon: 'eco',           title: 'Responsible Sourcing', desc: 'We prioritize suppliers with strong environmental commitments, RoHS and REACH compliant materials, and responsible supply chains.' },
           ].map((v) => (
-            <div key={v.title} className="bg-white border border-[#c5c6cd] rounded-xl p-5 sm:p-8 hover:shadow-lg hover:bg-white/20 hover:scale-105 transition-transform duration-300 transform-gpu">
+            <div key={v.title} className="bg-white border border-[#c5c6cd] rounded-xl p-5 sm:p-8 hover:shadow-lg hover:bg-white/20 hover:scale-105 transition-transform duration-500 transform-gpu">
               <span className="material-symbols-outlined text-[#005691] text-3xl sm:text-4xl mb-3 sm:mb-4 block">{v.icon}</span>
               <h4 className="font-bold text-[#005691] text-base sm:text-lg mb-2 sm:mb-3">{v.title}</h4>
               <p className="text-[#505f76] text-xs sm:text-sm leading-relaxed">{v.desc}</p>
@@ -498,7 +498,7 @@ export default function AboutUs({ onNavigate }) {
             Products sourced and supplied in strict compliance with international quality, safety, and material standards.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
             {[
               { cert: 'ISO 9001:2015', desc: 'Quality Management System', icon: 'verified' },
               { cert: 'RoHS', desc: 'Hazardous Substance Compliance', icon: 'eco' },
@@ -507,14 +507,14 @@ export default function AboutUs({ onNavigate }) {
             ].map((c) => (
               <div
                 key={c.cert}
-                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 sm:p-8 hover:bg-white/20 hover:border-white/40 hover:scale-105 transition-all duration-300 shadow-xl flex flex-col justify-between items-center text-center group"
+                className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3.5 sm:p-4 hover:bg-white/20 hover:border-white/40 hover:-translate-y-0.5 transition-all duration-500 shadow-lg flex flex-col items-center justify-center text-center group"
               >
-                <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-white text-2xl">{c.icon}</span>
+                <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+                  <span className="material-symbols-outlined text-white text-lg sm:text-xl">{c.icon}</span>
                 </div>
                 <div>
-                  <div className="text-lg sm:text-xl font-bold text-white mb-2 leading-snug">{c.cert}</div>
-                  <div className="text-white/75 text-xs sm:text-sm leading-relaxed">{c.desc}</div>
+                  <div className="text-xs sm:text-sm font-bold text-white mb-1 leading-snug">{c.cert}</div>
+                  <div className="text-white/80 text-[11px] sm:text-xs leading-snug">{c.desc}</div>
                 </div>
               </div>
             ))}

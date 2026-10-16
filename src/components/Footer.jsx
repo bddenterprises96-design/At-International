@@ -215,14 +215,28 @@ export default function Footer({ onNavigate }) {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10 py-5 px-4 sm:px-8 text-center text-white/40 text-xs flex flex-col sm:flex-row items-center justify-between gap-4 max-w-[1440px] mx-auto">
+      <div className="border-t border-white/10 py-5 px-4 sm:px-8 text-center text-white/40 text-xs flex flex-col md:flex-row items-center justify-between gap-4 max-w-[1440px] mx-auto">
         <div>© {new Date().getFullYear()} AT International. All rights reserved. | Guangzhou City, China</div>
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-white/50">
-          <span>Global Trade & Export Supplier</span>
-          <span className="hidden sm:inline">•</span>
-          <span>Worldwide Freight Shipping</span>
-          <span className="hidden sm:inline">•</span>
-          <span>ISO 9001:2015</span>
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-white/60">
+          <button
+            onClick={() => handleNavigate('Privacy Policy')}
+            className="hover:text-white text-white/75 font-medium transition-colors cursor-pointer hover:underline underline-offset-4"
+          >
+            Privacy Policy
+          </button>
+          <span className="text-white/30">•</span>
+          <button
+            onClick={() => handleNavigate('Cookies Policy')}
+            className="hover:text-white text-white/75 font-medium transition-colors cursor-pointer hover:underline underline-offset-4"
+          >
+            Cookies Policy
+          </button>
+          <span className="hidden sm:inline text-white/30">•</span>
+          <span className="text-white/50">Global Trade & Export Supplier</span>
+          <span className="hidden sm:inline text-white/30">•</span>
+          <span className="text-white/50">Worldwide Freight Shipping</span>
+          <span className="hidden sm:inline text-white/30">•</span>
+          <span className="text-white/50">ISO 9001:2015</span>
         </div>
       </div>
     </footer>

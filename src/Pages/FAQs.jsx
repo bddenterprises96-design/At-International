@@ -10,7 +10,7 @@ const FAQS = [
       },
       {
         q: 'Does ATI supply products beyond sealing components?',
-        a: 'Yes. Beyond Industrial Sealing Solutions, AT International is a specialized global supplier and trading partner delivering Motorcycle Parts (cylinder blocks, pistons, head gaskets, clutch friction plates) and E-Bike Parts (motor shaft seals, battery pack gaskets, controller grommets) to B2B buyers and distributors across 40+ countries.',
+        a: 'Yes. Beyond Industrial Sealing Solutions, AT International supplies Motorcycle Parts (crankshafts, cylinder heads, cylinders and piston kits, clutch plates, gaskets, and a complete range of motorcycle parts) and E-Bike Parts (BLDC hub motors, motor controllers, Li-ion battery chargers, and a complete range of e-bike parts) to B2B buyers and distributors in over 40 countries.',
       },
       {
         q: 'Can ATI source seals to my custom dimensions and drawings?',
@@ -22,7 +22,7 @@ const FAQS = [
       },
       {
         q: 'Do you provide material certifications and test reports?',
-        a: 'Yes. Full material traceability is available including Certificate of Conformance (CoC), material data sheets (MDS) and ROHS/REACH compliance declarations. These are provided with every order on request.',
+        a: 'Yes. Full material traceability is available including Certificate of Conformance (CoC), material data sheets (MDS) and ROHS/REACH compliance declarations. These documents are available on request for every order.',
       },
     ],
   },

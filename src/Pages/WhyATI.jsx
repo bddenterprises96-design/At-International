@@ -217,7 +217,7 @@ export default function WhyATI({ onNavigate }) {
               {
                 step: '04',
                 title: 'Documentation',
-                desc: 'Complete B/L, Certificates of Origin (Form A, Form E), RoHS/REACH & Invoices.',
+                desc: 'Complete B/L, Certificates of Origin (Including Form E and other FTA certificates where applicable), RoHS/REACH & Invoices.',
                 icon: 'description'
               },
               {
@@ -239,7 +239,7 @@ export default function WhyATI({ onNavigate }) {
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-black text-white bg-white/20 border border-white/30 px-2.5 py-0.5 rounded-md shadow-xs">
+                    <span className="text-md font-black text-white bg-white/20 border border-white/30 px-2.5 py-0.5 rounded-md shadow-xs">
                       {s.step}
                     </span>
                     <span className="material-symbols-outlined text-white text-2xl group-hover:scale-110 group-hover:text-cyan-300 transition-all">
@@ -249,7 +249,7 @@ export default function WhyATI({ onNavigate }) {
                   <h4 className="font-bold text-white text-sm mb-2 leading-snug group-hover:text-cyan-200 transition-colors">
                     {s.title}
                   </h4>
-                  <p className="text-white/80 text-[11px] leading-relaxed font-normal">
+                  <p className="text-white/80 text-[12px] leading-relaxed font-normal">
                     {s.desc}
                   </p>
                 </div>
@@ -342,7 +342,7 @@ export default function WhyATI({ onNavigate }) {
               icon: 'description',
               badge: 'Export Docs',
               title: 'Complete Export Documentation & Customs',
-              desc: 'We prepare all required export documentation including Bills of Lading (B/L), Certificates of Origin (Form A, Form E), Commercial Invoices, and Packing Lists for fast customs release.',
+              desc: 'We prepare all required export documentation including Bills of Lading (B/L), Certificates of Origin (Including Form E and other FTA certificates where applicable), Commercial Invoices, and Packing Lists for fast customs release.',
             },
             {
               icon: 'shield_with_heart',

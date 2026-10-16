@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import emailjs from '@emailjs/browser'
 
 const SOCIAL = [
@@ -126,6 +126,11 @@ export default function ContactUS({ onNavigate }) {
   const [emailError, setEmailError] = useState(null)
   const [errors, setErrors] = useState({})
   const [copiedField, setCopiedField] = useState(null)
+
+  // ── UPLOADED TECHNICAL DRAWINGS & CAD FILES ───────────────────
+  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef(null)
 
   // ── SELECTED PARTS FROM PRODUCTS PAGE ─────────────────────────
   const [selectedParts, setSelectedParts] = useState([])
@@ -383,6 +388,61 @@ export default function ContactUS({ onNavigate }) {
     }
   }
 
+  const getFileIcon = (filename) => {
+    const ext = filename.split('.').pop().toLowerCase()
+    if (['dwg', 'dxf', 'step', 'stp', 'iges', 'igs', 'cad'].includes(ext)) return 'draft'
+    if (['jpg', 'jpeg', 'png', 'webp', 'svg', 'bmp'].includes(ext)) return 'image'
+    if (['pdf'].includes(ext)) return 'picture_as_pdf'
+    if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return 'folder_zip'
+    return 'description'
+  }
+
+  const formatFileSize = (bytes) => {
+    if (!bytes || bytes === 0) return '0 B'
+    const k = 1024
+    const sizes = ['B', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i]
+  }
+
+  const handleFileInputChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const filesArray = Array.from(e.target.files)
+      setUploadedFiles((prev) => [...prev, ...filesArray])
+    }
+  }
+
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const filesArray = Array.from(e.dataTransfer.files)
+      setUploadedFiles((prev) => [...prev, ...filesArray])
+    }
+  }
+
+  const removeFile = (index) => {
+    setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  const clearAllFiles = () => {
+    setUploadedFiles([])
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
   const validate = () => {
     const newErrors = {}
     if (!form.name.trim())  newErrors.name  = 'Full name is required'
@@ -404,6 +464,10 @@ export default function ContactUS({ onNavigate }) {
       ? selectedParts.map(p => `- ${p.displayName || p.name} (${p.category || 'General'})`).join('\n')
       : 'None'
 
+    const filesSummary = uploadedFiles && uploadedFiles.length > 0
+      ? `\n\nUploaded Technical Drawings / CAD Files (${uploadedFiles.length}):\n` + uploadedFiles.map((f, i) => `  ${i + 1}. ${f.name} (${formatFileSize(f.size)})`).join('\n')
+      : ''
+
     // 1. Send Admin Notification Email to AT International (usmankhalid1234@hotmail.com & theatinternational@gmail.com)
     const adminTemplateParams = {
       from_name: form.name,
@@ -420,8 +484,10 @@ export default function ContactUS({ onNavigate }) {
       inquiry_mode: inquiryMode,
       product_category: form.product || 'Not Specified',
       quantity: form.quantity || 'Not Specified',
-      message: `Client Name: ${form.name}\nClient Email: ${form.email}\nPhone/WhatsApp: ${form.phone || 'N/A'}\nCompany: ${form.company || 'N/A'}\nCountry: ${form.country || 'N/A'}\nProduct: ${form.product || 'Not Specified'}\nQuantity: ${form.quantity || 'Not Specified'}\nInquiry Mode: ${inquiryMode}\n\nTechnical Requirements / Message:\n${form.message || 'No additional message provided'}\n\nSelected Parts Summary:\n${selectedItemsSummary}`,
+      message: `Client Name: ${form.name}\nClient Email: ${form.email}\nPhone/WhatsApp: ${form.phone || 'N/A'}\nCompany: ${form.company || 'N/A'}\nCountry: ${form.country || 'N/A'}\nProduct: ${form.product || 'Not Specified'}\nQuantity: ${form.quantity || 'Not Specified'}\nInquiry Mode: ${inquiryMode}${filesSummary}\n\nTechnical Requirements / Message:\n${form.message || 'No additional message provided'}\n\nSelected Parts Summary:\n${selectedItemsSummary}`,
       selected_items: selectedItemsSummary,
+      uploaded_files_count: uploadedFiles.length,
+      uploaded_files_list: uploadedFiles.map(f => `${f.name} (${formatFileSize(f.size)})`).join(', ') || 'None',
       name: form.name,
       title: `Inquiry from ${form.name} (${form.company || 'B2B Client'})`,
       subject: `New Sourcing Inquiry from ${form.name}`
@@ -663,7 +729,7 @@ export default function ContactUS({ onNavigate }) {
                   },
                   {
                     icon: 'phone',
-                    label: 'Phone / WhatsApp',
+                    label: 'Phone / WeChat',
                     value: '+86 185 2321 0975',
                     action: () => copyToClipboard('+8618523210975', 'phone'),
                     actionLabel: copiedField === 'phone' ? '✓ Copied' : 'Copy'
@@ -745,6 +811,7 @@ export default function ContactUS({ onNavigate }) {
                   onClick={() => {
                     setSubmitted(false)
                     setForm({ name: '', company: '', email: '', phone: '', country: '', product: '', quantity: '', message: '' })
+                    setUploadedFiles([])
                   }}
                   className="bg-[#005691] text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-[#004370] transition-all shadow-lg hover:scale-105"
                 >
@@ -793,6 +860,108 @@ export default function ContactUS({ onNavigate }) {
                       )
                     })}
                   </div>
+
+                  {/* UPLOAD FILES BOX (Shown when 'Custom Drawing & CAD Request' is tapped) */}
+                  {inquiryMode === 'custom' && (
+                    <div className="mt-4 p-5 sm:p-6 bg-gradient-to-br from-blue-50/80 via-white to-blue-50/40 rounded-2xl border-2 border-[#005691]/25 shadow-sm transition-all duration-300">
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-9 h-9 rounded-xl bg-[#005691] text-white flex items-center justify-center shadow-sm flex-shrink-0">
+                            <span className="material-symbols-outlined text-xl">upload_file</span>
+                          </div>
+                          <div>
+                            <h4 className="text-sm sm:text-base font-bold text-[#005691]">
+                              Upload Files (Drawings & CAD Specifications)
+                            </h4>
+                            <p className="text-[11px] sm:text-xs text-gray-500">
+                              Upload any type of files to place your order (CAD models, blueprints, PDF drawings, images, specs)
+                            </p>
+                          </div>
+                        </div>
+                        {uploadedFiles.length > 0 && (
+                          <span className="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200 flex-shrink-0">
+                            {uploadedFiles.length} {uploadedFiles.length === 1 ? 'file' : 'files'} attached
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Drag & Drop Area */}
+                      <div
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                        className={`relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 flex flex-col items-center justify-center ${
+                          isDragging
+                            ? 'border-[#005691] bg-blue-100/50 scale-[1.01]'
+                            : 'border-[#005691]/35 hover:border-[#005691] hover:bg-white bg-white/70'
+                        }`}
+                      >
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          multiple
+                          onChange={handleFileInputChange}
+                          className="hidden"
+                        />
+                        <div className="w-12 h-12 rounded-full bg-blue-50 text-[#005691] flex items-center justify-center mb-2.5 shadow-sm">
+                          <span className="material-symbols-outlined text-2xl">cloud_upload</span>
+                        </div>
+                        <p className="text-xs sm:text-sm font-bold text-gray-800 mb-1">
+                          <span className="text-[#005691] underline underline-offset-2">Click to browse</span> or drag & drop files here
+                        </p>
+                        <p className="text-[11px] text-gray-500 max-w-sm">
+                          Supports all file types: CAD (.dwg, .dxf, .step, .stp), PDF, 3D models, images (.png, .jpg), docs, or ZIP archives
+                        </p>
+                      </div>
+
+                      {/* Uploaded Files List */}
+                      {uploadedFiles.length > 0 && (
+                        <div className="mt-4 space-y-2">
+                          <div className="flex items-center justify-between text-xs text-gray-500 px-1 font-semibold">
+                            <span>Uploaded Files ({uploadedFiles.length})</span>
+                            <button
+                              type="button"
+                              onClick={clearAllFiles}
+                              className="text-red-500 hover:text-red-700 hover:underline text-[11px] font-bold flex items-center gap-1"
+                            >
+                              <span className="material-symbols-outlined text-xs">delete_sweep</span>
+                              Remove All
+                            </button>
+                          </div>
+                          <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1">
+                            {uploadedFiles.map((file, idx) => (
+                              <div
+                                key={`${file.name}-${idx}`}
+                                className="flex items-center justify-between gap-3 p-2.5 bg-white rounded-xl border border-gray-200 text-xs shadow-sm hover:border-gray-300 transition-colors"
+                              >
+                                <div className="flex items-center gap-2.5 min-w-0">
+                                  <span className="material-symbols-outlined text-base text-[#005691] flex-shrink-0">
+                                    {getFileIcon(file.name)}
+                                  </span>
+                                  <div className="min-w-0">
+                                    <p className="font-bold text-gray-800 truncate text-xs">{file.name}</p>
+                                    <p className="text-[10px] text-gray-400">{formatFileSize(file.size)}</p>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    removeFile(idx)
+                                  }}
+                                  className="text-gray-400 hover:text-red-600 p-1 rounded-lg hover:bg-red-50 transition-colors flex-shrink-0"
+                                  title="Remove file"
+                                >
+                                  <span className="material-symbols-outlined text-base">close</span>
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Validation Errors */}
@@ -1059,6 +1228,11 @@ export default function ContactUS({ onNavigate }) {
                       <>
                         <span className="material-symbols-outlined text-xl">send</span>
                         Submit Inquiry
+                        {uploadedFiles.length > 0 && (
+                          <span className="bg-emerald-400 text-gray-900 text-xs font-bold px-2.5 py-0.5 rounded-full ml-2">
+                            {uploadedFiles.length} {uploadedFiles.length === 1 ? 'file' : 'files'} attached
+                          </span>
+                        )}
                         {selectedParts.length > 0 && (
                           <span className="bg-yellow-400 text-gray-900 text-xs font-bold px-2.5 py-0.5 rounded-full ml-2">
                             {selectedParts.length} parts · {totalItems} items
