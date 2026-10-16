@@ -468,13 +468,14 @@ export default function ContactUS({ onNavigate }) {
       ? `\n\nUploaded Technical Drawings / CAD Files (${uploadedFiles.length}):\n` + uploadedFiles.map((f, i) => `  ${i + 1}. ${f.name} (${formatFileSize(f.size)})`).join('\n')
       : ''
 
-    // 1. Send Admin Notification Email to AT International (usmankhalid1234@hotmail.com & theatinternational@gmail.com)
+    // 1. Send Admin Notification Email to AT International (Hotmail & Gmail)
     const adminTemplateParams = {
       from_name: form.name,
       from_email: form.email,
       to_name: 'AT International',
-      to_email: 'usmankhalid1234@hotmail.com, theatinternational@gmail.com',
-      recipient_email: 'usmankhalid1234@hotmail.com, theatinternational@gmail.com',
+      to_email: 'usmankhalid1234@hotmail.com',
+      recipient_email: 'usmankhalid1234@hotmail.com',
+      bcc_email: 'theatinternational@gmail.com',
       reply_to: form.email,
       user_email: form.email,
       email: form.email,
@@ -496,12 +497,12 @@ export default function ContactUS({ onNavigate }) {
     // 2. Send Auto-Reply Confirmation Email to User (form.email)
     const userConfirmationParams = {
       from_name: 'AT International Sourcing Desk',
-      from_email: 'usmankhalid1234@hotmail.com',
+      from_email: 'theatinternational@gmail.com',
       to_name: form.name,
       to_email: form.email,
       recipient_email: form.email,
       user_email: form.email,
-      reply_to: 'usmankhalid1234@hotmail.com',
+      reply_to: 'theatinternational@gmail.com',
       email: form.email,
       company: form.company || 'N/A',
       product_category: form.product || 'Not Specified',
@@ -512,14 +513,14 @@ export default function ContactUS({ onNavigate }) {
 
     setEmailError(null)
     emailjs.send(
-      'service_hrbqaj9',
+      'service_ngv2k7e',
       'template_l94ixmr',
       adminTemplateParams,
       'l9K4E835PGcGZMP2Z'
     ).then(
       (res) => {
         console.log('EmailJS Admin Notification Sent:', res.status, res.text)
-        emailjs.send('service_hrbqaj9', 'template_l94ixmr', userConfirmationParams, 'l9K4E835PGcGZMP2Z')
+        emailjs.send('service_ngv2k7e', 'template_l94ixmr', userConfirmationParams, 'l9K4E835PGcGZMP2Z')
           .then(uRes => console.log('EmailJS User Confirmation Sent:', uRes.status, uRes.text))
           .catch(uErr => console.warn('EmailJS User Confirmation Error:', uErr))
         setSending(false)

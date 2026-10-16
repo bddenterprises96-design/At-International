@@ -1709,7 +1709,8 @@ export default function Blogs() {
       const templateParams = {
         from_name: 'Newsletter Subscriber',
         to_name: 'AT International',
-        to_email: 'usmankhalid1234@hotmail.com, theatinternational@gmail.com',
+        to_email: 'usmankhalid1234@hotmail.com',
+        bcc_email: 'theatinternational@gmail.com',
         reply_to: emailInput,
         user_email: emailInput,
         message: `New Technical Insights Newsletter subscription from: ${emailInput}`,
@@ -1717,7 +1718,7 @@ export default function Blogs() {
       }
 
       emailjs.send(
-        'service_hrbqaj9',
+        'service_ngv2k7e',
         'template_l94ixmr',
         templateParams,
         'l9K4E835PGcGZMP2Z'

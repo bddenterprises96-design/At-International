@@ -25,7 +25,8 @@ export default function InquiryForm() {
     const adminTemplateParams = {
       from_name: form.company || 'Website Inquiry',
       to_name: 'AT International',
-      to_email: 'usmankhalid1234@hotmail.com, theatinternational@gmail.com',
+      to_email: 'usmankhalid1234@hotmail.com',
+      bcc_email: 'theatinternational@gmail.com',
       reply_to: form.email,
       user_email: form.email,
       email: form.email,
@@ -38,23 +39,24 @@ export default function InquiryForm() {
 
     const userConfirmationParams = {
       from_name: 'AT International Sourcing Desk',
+      from_email: 'theatinternational@gmail.com',
       to_name: form.company || 'Valued Partner',
       to_email: form.email,
       user_email: form.email,
-      reply_to: 'usmankhalid1234@hotmail.com',
+      reply_to: 'theatinternational@gmail.com',
       email: form.email,
       message: `Thank you for submitting your inquiry regarding ${form.category || 'our products'}. Our engineering and sourcing team has received your request and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Desk\ntheatinternational@gmail.com`,
       title: 'Inquiry Received - AT International'
     }
 
     emailjs.send(
-      'service_hrbqaj9',
+      'service_ngv2k7e',
       'template_l94ixmr',
       adminTemplateParams,
       'l9K4E835PGcGZMP2Z'
     ).then(
       () => {
-        emailjs.send('service_hrbqaj9', 'template_l94ixmr', userConfirmationParams, 'l9K4E835PGcGZMP2Z').catch(() => {})
+        emailjs.send('service_ngv2k7e', 'template_l94ixmr', userConfirmationParams, 'l9K4E835PGcGZMP2Z').catch(() => {})
         setSending(false)
         setSubmitted(true)
       },
