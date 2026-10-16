@@ -1710,9 +1710,12 @@ export default function Blogs() {
         from_name: 'Newsletter Subscriber',
         to_name: 'AT International',
         to_email: 'usmankhalid1234@hotmail.com',
+        recipient_email: 'usmankhalid1234@hotmail.com',
+        email: 'usmankhalid1234@hotmail.com',
         bcc_email: 'theatinternational@gmail.com',
         reply_to: emailInput,
         user_email: emailInput,
+        customer_email: emailInput,
         message: `New Technical Insights Newsletter subscription from: ${emailInput}`,
         title: `Newsletter Subscription: ${emailInput}`
       }
