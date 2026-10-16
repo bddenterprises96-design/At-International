@@ -51,12 +51,12 @@ export default function InquiryForm() {
 
     emailjs.send(
       'service_ngv2k7e',
-      'template_l94ixmr',
+      'template_9s3z9hq',
       adminTemplateParams,
-      'l9K4E835PGcGZMP2Z'
+      'YL1FWmjbDOmyOF0J0'
     ).then(
       () => {
-        emailjs.send('service_ngv2k7e', 'template_l94ixmr', userConfirmationParams, 'l9K4E835PGcGZMP2Z').catch(() => {})
+        emailjs.send('service_ngv2k7e', 'template_9s3z9hq', userConfirmationParams, 'YL1FWmjbDOmyOF0J0').catch(() => {})
         setSending(false)
         setSubmitted(true)
       },
