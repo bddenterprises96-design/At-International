@@ -42,17 +42,22 @@ export default function InquiryForm() {
       from_name: 'AT International Sourcing Desk',
       from_email: 'info@theatinternational.com',
       to_name: form.company || 'Valued Partner',
+      name: form.company || 'Valued Partner',
       to_email: form.email,
+      recipient_email: form.email,
       user_email: form.email,
-      reply_to: 'info@theatinternational.com',
+      customer_email: form.email,
+      client_email: form.email,
       email: form.email,
+      reply_to: 'info@theatinternational.com',
       message: `Thank you for submitting your inquiry regarding ${form.category || 'our products'}. Our engineering and sourcing team has received your request and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Desk\ninfo@theatinternational.com`,
-      title: 'Inquiry Received - AT International'
+      title: `Inquiry regarding ${form.category || 'Products'}`,
+      subject: 'Inquiry Received - AT International'
     }
 
     emailjs.send(
       'service_cd7t4tp',
-      'template_g6j00fl',
+      'template_wdsnb2r',
       adminTemplateParams,
       'Wg55VCxLMsJxxjNy0'
     ).then(

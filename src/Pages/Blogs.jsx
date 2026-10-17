@@ -1721,7 +1721,7 @@ export default function Blogs() {
 
       emailjs.send(
         'service_cd7t4tp',
-        'template_g6j00fl',
+        'template_wdsnb2r',
         templateParams,
         'Wg55VCxLMsJxxjNy0'
       ).catch((err) => console.error('EmailJS Newsletter Error:', err))

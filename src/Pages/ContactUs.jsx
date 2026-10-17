@@ -500,22 +500,25 @@ export default function ContactUS({ onNavigate }) {
       from_name: 'AT International Sourcing Desk',
       from_email: 'info@theatinternational.com',
       to_name: form.name,
+      name: form.name,
       to_email: form.email,
       recipient_email: form.email,
       user_email: form.email,
-      reply_to: 'info@theatinternational.com',
+      customer_email: form.email,
+      client_email: form.email,
       email: form.email,
+      reply_to: 'info@theatinternational.com',
       company: form.company || 'N/A',
       product_category: form.product || 'Not Specified',
       message: `Dear ${form.name},\n\nThank you for reaching out to AT International. We have successfully received your inquiry regarding ${form.product || 'our products'}.\n\nOur sourcing engineering team is reviewing your requirements and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Team\ninfo@theatinternational.com`,
-      title: 'Inquiry Received - AT International',
+      title: `Inquiry regarding ${form.product || 'Sourcing Products'}`,
       subject: 'Inquiry Received - AT International'
     }
 
     setEmailError(null)
     emailjs.send(
       'service_cd7t4tp',
-      'template_g6j00fl',
+      'template_wdsnb2r',
       adminTemplateParams,
       'Wg55VCxLMsJxxjNy0'
     ).then(
