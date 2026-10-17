@@ -468,15 +468,15 @@ export default function ContactUS({ onNavigate }) {
       ? `\n\nUploaded Technical Drawings / CAD Files (${uploadedFiles.length}):\n` + uploadedFiles.map((f, i) => `  ${i + 1}. ${f.name} (${formatFileSize(f.size)})`).join('\n')
       : ''
 
-    // 1. Send Admin Notification Email to AT International (Hotmail & Gmail)
+    // 1. Send Admin Notification Email to AT International (Hostinger SMTP)
     const adminTemplateParams = {
       from_name: form.name,
       from_email: form.email,
       to_name: 'AT International',
-      to_email: 'usmankhalid1234@hotmail.com',
-      recipient_email: 'usmankhalid1234@hotmail.com',
-      email: 'usmankhalid1234@hotmail.com',
-      bcc_email: 'theatinternational@gmail.com',
+      to_email: 'info@theatinternational.com',
+      recipient_email: 'info@theatinternational.com',
+      email: 'info@theatinternational.com',
+      bcc_email: 'info@theatinternational.com',
       reply_to: form.email,
       user_email: form.email,
       customer_email: form.email,
@@ -499,30 +499,30 @@ export default function ContactUS({ onNavigate }) {
     // 2. Send Auto-Reply Confirmation Email to User (form.email)
     const userConfirmationParams = {
       from_name: 'AT International Sourcing Desk',
-      from_email: 'theatinternational@gmail.com',
+      from_email: 'info@theatinternational.com',
       to_name: form.name,
       to_email: form.email,
       recipient_email: form.email,
       user_email: form.email,
-      reply_to: 'theatinternational@gmail.com',
+      reply_to: 'info@theatinternational.com',
       email: form.email,
       company: form.company || 'N/A',
       product_category: form.product || 'Not Specified',
-      message: `Dear ${form.name},\n\nThank you for reaching out to AT International. We have successfully received your inquiry regarding ${form.product || 'our products'}.\n\nOur sourcing engineering team is reviewing your requirements and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Team\ntheatinternational@gmail.com`,
+      message: `Dear ${form.name},\n\nThank you for reaching out to AT International. We have successfully received your inquiry regarding ${form.product || 'our products'}.\n\nOur sourcing engineering team is reviewing your requirements and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Team\ninfo@theatinternational.com`,
       title: 'Inquiry Received - AT International',
       subject: 'Inquiry Received - AT International'
     }
 
     setEmailError(null)
     emailjs.send(
-      'service_ngv2k7e',
+      'service_cd7t4tp',
       'template_9s3z9hq',
       adminTemplateParams,
       'YL1FWmjbDOmyOF0J0'
     ).then(
       (res) => {
         console.log('EmailJS Admin Notification Sent:', res.status, res.text)
-        emailjs.send('service_ngv2k7e', 'template_9s3z9hq', userConfirmationParams, 'YL1FWmjbDOmyOF0J0')
+        emailjs.send('service_cd7t4tp', 'template_9s3z9hq', userConfirmationParams, 'YL1FWmjbDOmyOF0J0')
           .then(uRes => console.log('EmailJS User Confirmation Sent:', uRes.status, uRes.text))
           .catch(uErr => console.warn('EmailJS User Confirmation Error:', uErr))
         setSending(false)
@@ -726,8 +726,8 @@ export default function ContactUS({ onNavigate }) {
                   {
                     icon: 'mail',
                     label: 'Email',
-                    value: 'theatinternational@gmail.com',
-                    action: () => copyToClipboard('theatinternational@gmail.com', 'email'),
+                    value: 'info@theatinternational.com',
+                    action: () => copyToClipboard('info@theatinternational.com', 'email'),
                     actionLabel: copiedField === 'email' ? '✓ Copied' : 'Copy'
                   },
                   {
@@ -1205,11 +1205,11 @@ export default function ContactUS({ onNavigate }) {
                     </div>
                     <p>{emailError}</p>
                     <a
-                      href={`mailto:theatinternational@gmail.com?subject=Sourcing Inquiry from ${encodeURIComponent(form.name || 'Client')}&body=${encodeURIComponent(`Client Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nCompany: ${form.company}\n\nMessage:\n${form.message}`)}`}
+                      href={`mailto:info@theatinternational.com?subject=Sourcing Inquiry from ${encodeURIComponent(form.name || 'Client')}&body=${encodeURIComponent(`Client Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nCompany: ${form.company}\n\nMessage:\n${form.message}`)}`}
                       className="inline-flex items-center gap-1.5 text-[#005691] font-bold underline hover:text-blue-900 mt-1 text-xs"
                     >
                       <span className="material-symbols-outlined text-sm">mail</span>
-                      Click here to email us directly at theatinternational@gmail.com
+                      Click here to email us directly at info@theatinternational.com
                     </a>
                   </div>
                 )}

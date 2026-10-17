@@ -421,7 +421,7 @@ export default function PrivacyPolicy({ onNavigate }) {
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm">
-                  To exercise any of these rights, contact our Data Governance Desk at <a href="mailto:theatinternational@gmail.com" className="text-[#005691] font-semibold hover:underline">theatinternational@gmail.com</a>. We respond to all formal inquiries within 24 to 48 business hours.
+                  To exercise any of these rights, contact our Data Governance Desk at <a href="mailto:info@theatinternational.com" className="text-[#005691] font-semibold hover:underline">info@theatinternational.com</a>. We respond to all formal inquiries within 24 to 48 business hours.
                 </p>
               </div>
             </section>
@@ -471,7 +471,7 @@ export default function PrivacyPolicy({ onNavigate }) {
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="material-symbols-outlined text-base text-white/70">mail</span>
-                        <span><strong>Email:</strong> <a href="mailto:theatinternational@gmail.com" className="underline hover:text-white">theatinternational@gmail.com</a></span>
+                        <span><strong>Email:</strong> <a href="mailto:info@theatinternational.com" className="underline hover:text-white">info@theatinternational.com</a></span>
                       </div>
                     </div>
                     <div className="space-y-2">

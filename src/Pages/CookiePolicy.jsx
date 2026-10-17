@@ -472,7 +472,7 @@ export default function CookiePolicy({ onNavigate }) {
                     Contact Export Desk
                   </button>
                   <a
-                    href="mailto:theatinternational@gmail.com"
+                    href="mailto:info@theatinternational.com"
                     className="px-4 py-2 bg-white text-[#005691] border border-[#005691] text-xs sm:text-sm font-semibold rounded-lg hover:bg-blue-50 transition-all"
                   >
                     Email DPO

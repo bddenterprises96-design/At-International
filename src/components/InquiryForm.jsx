@@ -25,10 +25,10 @@ export default function InquiryForm() {
     const adminTemplateParams = {
       from_name: form.company || 'Website Inquiry',
       to_name: 'AT International',
-      to_email: 'usmankhalid1234@hotmail.com',
-      recipient_email: 'usmankhalid1234@hotmail.com',
-      email: 'usmankhalid1234@hotmail.com',
-      bcc_email: 'theatinternational@gmail.com',
+      to_email: 'info@theatinternational.com',
+      recipient_email: 'info@theatinternational.com',
+      email: 'info@theatinternational.com',
+      bcc_email: 'info@theatinternational.com',
       reply_to: form.email,
       user_email: form.email,
       customer_email: form.email,
@@ -41,24 +41,24 @@ export default function InquiryForm() {
 
     const userConfirmationParams = {
       from_name: 'AT International Sourcing Desk',
-      from_email: 'theatinternational@gmail.com',
+      from_email: 'info@theatinternational.com',
       to_name: form.company || 'Valued Partner',
       to_email: form.email,
       user_email: form.email,
-      reply_to: 'theatinternational@gmail.com',
+      reply_to: 'info@theatinternational.com',
       email: form.email,
-      message: `Thank you for submitting your inquiry regarding ${form.category || 'our products'}. Our engineering and sourcing team has received your request and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Desk\ntheatinternational@gmail.com`,
+      message: `Thank you for submitting your inquiry regarding ${form.category || 'our products'}. Our engineering and sourcing team has received your request and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Desk\ninfo@theatinternational.com`,
       title: 'Inquiry Received - AT International'
     }
 
     emailjs.send(
-      'service_ngv2k7e',
+      'service_cd7t4tp',
       'template_9s3z9hq',
       adminTemplateParams,
       'YL1FWmjbDOmyOF0J0'
     ).then(
       () => {
-        emailjs.send('service_ngv2k7e', 'template_9s3z9hq', userConfirmationParams, 'YL1FWmjbDOmyOF0J0').catch(() => {})
+        emailjs.send('service_cd7t4tp', 'template_9s3z9hq', userConfirmationParams, 'YL1FWmjbDOmyOF0J0').catch(() => {})
         setSending(false)
         setSubmitted(true)
       },

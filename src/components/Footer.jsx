@@ -193,7 +193,7 @@ export default function Footer({ onNavigate }) {
             </li>
             <li className="flex items-center gap-3">
               <span className="material-symbols-outlined text-lg text-[#005691] flex-shrink-0">mail</span>
-              <a href="mailto:theatinternational@gmail.com" className="text-sm font-medium text-white/80 hover:text-white transition-colors truncate">theatinternational@gmail.com</a>
+              <a href="mailto:info@theatinternational.com" className="text-sm font-medium text-white/80 hover:text-white transition-colors truncate">info@theatinternational.com</a>
             </li>
             <li className="flex items-center gap-3">
               <span className="material-symbols-outlined text-lg text-[#005691] flex-shrink-0">call</span>

@@ -1709,10 +1709,10 @@ export default function Blogs() {
       const templateParams = {
         from_name: 'Newsletter Subscriber',
         to_name: 'AT International',
-        to_email: 'usmankhalid1234@hotmail.com',
-        recipient_email: 'usmankhalid1234@hotmail.com',
-        email: 'usmankhalid1234@hotmail.com',
-        bcc_email: 'theatinternational@gmail.com',
+        to_email: 'info@theatinternational.com',
+        recipient_email: 'info@theatinternational.com',
+        email: 'info@theatinternational.com',
+        bcc_email: 'info@theatinternational.com',
         reply_to: emailInput,
         user_email: emailInput,
         customer_email: emailInput,
@@ -1721,7 +1721,7 @@ export default function Blogs() {
       }
 
       emailjs.send(
-        'service_ngv2k7e',
+        'service_cd7t4tp',
         'template_9s3z9hq',
         templateParams,
         'YL1FWmjbDOmyOF0J0'
