@@ -1712,7 +1712,6 @@ export default function Blogs() {
         to_email: 'info@theatinternational.com',
         recipient_email: 'info@theatinternational.com',
         email: 'info@theatinternational.com',
-        bcc_email: 'info@theatinternational.com',
         reply_to: emailInput,
         user_email: emailInput,
         customer_email: emailInput,

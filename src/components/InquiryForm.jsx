@@ -28,7 +28,6 @@ export default function InquiryForm() {
       to_email: 'info@theatinternational.com',
       recipient_email: 'info@theatinternational.com',
       email: 'info@theatinternational.com',
-      bcc_email: 'info@theatinternational.com',
       reply_to: form.email,
       user_email: form.email,
       customer_email: form.email,
