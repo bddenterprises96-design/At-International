@@ -41,7 +41,7 @@ export default function Footer({ onNavigate }) {
             <div className="grid grid-cols-3 gap-x-6 gap-y-4 max-w-[240px] mb-6">
               {/* Row 1: Facebook, Twitter, LinkedIn */}
               <a
-                href="https://facebook.com/atiinternational"
+                href="https://www.facebook.com/share/1C3Acanq9d/?mibextid=wwXIfr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative w-11 h-11 bg-white/10 hover:bg-[#1877f2] transition-all duration-300 flex items-center justify-center group overflow-hidden rounded-lg"
@@ -54,7 +54,7 @@ export default function Footer({ onNavigate }) {
               </a>
               
               <a
-                href="https://twitter.com/atiinternational"
+                href="https://x.com/usman77765687?s=21&t=cTSAe3LIdfcsOj5pi9H0xg"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative w-11 h-11 bg-white/10 hover:bg-black transition-all duration-300 flex items-center justify-center group overflow-hidden rounded-lg"
@@ -67,7 +67,7 @@ export default function Footer({ onNavigate }) {
               </a>
               
               <a
-                href="https://linkedin.com/company/atiinternational"
+                href="https://www.linkedin.com/in/theat-international-29b52a225"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative w-11 h-11 bg-white/10 hover:bg-[#0a66c2] transition-all duration-300 flex items-center justify-center group overflow-hidden rounded-lg"
@@ -81,7 +81,7 @@ export default function Footer({ onNavigate }) {
 
               {/* Row 2: YouTube, Instagram, TikTok */}
               <a
-                href="https://youtube.com/@atiinternational"
+                href="https://youtube.com/@theatinternational?si=r6_DJ9WrRPxQ0msa"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative w-11 h-11 bg-white/10 hover:bg-[#ff0000] transition-all duration-300 flex items-center justify-center group overflow-hidden rounded-lg"
@@ -94,7 +94,7 @@ export default function Footer({ onNavigate }) {
               </a>
               
               <a
-                href="https://instagram.com/atiinternational"
+                href="https://www.instagram.com/theatinternational/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative w-11 h-11 bg-white/10 hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#e6683c] hover:to-[#dc2743] transition-all duration-300 flex items-center justify-center group overflow-hidden rounded-lg"
@@ -107,7 +107,7 @@ export default function Footer({ onNavigate }) {
               </a>
               
               <a
-                href="https://tiktok.com/atiinternational"
+                href="https://www.tiktok.com/@theatinternational?_r=1&_t=ZS-91prBFOzrPx"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative w-11 h-11 bg-white/10 hover:bg-black transition-all duration-300 flex items-center justify-center group overflow-hidden rounded-lg"

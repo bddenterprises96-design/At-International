@@ -4,7 +4,7 @@ import emailjs from '@emailjs/browser'
 const SOCIAL = [
   {
     name: 'Instagram',
-    href: 'https://instagram.com/atiinternational',
+    href: 'https://www.instagram.com/theatinternational/',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <defs>
@@ -25,7 +25,7 @@ const SOCIAL = [
   },
   {
     name: 'Facebook',
-    href: 'https://facebook.com/atiinternational',
+    href: 'https://www.facebook.com/share/1C3Acanq9d/?mibextid=wwXIfr',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#1877F2"/>
@@ -60,7 +60,7 @@ const SOCIAL = [
   },
   {
     name: 'X',
-    href: 'https://x.com/atiinternational',
+    href: 'https://x.com/usman77765687?s=21&t=cTSAe3LIdfcsOj5pi9H0xg',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#000000"/>
@@ -70,7 +70,7 @@ const SOCIAL = [
   },
   {
     name: 'TikTok',
-    href: 'https://tiktok.com/@atiinternational',
+    href: 'https://www.tiktok.com/@theatinternational?_r=1&_t=ZS-91prBFOzrPx',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#010101"/>
@@ -82,7 +82,7 @@ const SOCIAL = [
   },
   {
     name: 'YouTube',
-    href: 'https://youtube.com/@atiinternational',
+    href: 'https://youtube.com/@theatinternational?si=r6_DJ9WrRPxQ0msa',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#FF0000"/>
@@ -92,7 +92,7 @@ const SOCIAL = [
   },
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com/company/atiinternational',
+    href: 'https://www.linkedin.com/in/theat-international-29b52a225',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#0A66C2"/>
