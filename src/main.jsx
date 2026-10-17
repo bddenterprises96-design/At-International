@@ -6,7 +6,7 @@ import App from './App.jsx'
 import './index.css'
 
 // Global EmailJS Public Key Initialization
-emailjs.init('YL1FWmjbDOmyOF0J0')
+emailjs.init('Wg55VCxLMsJxxjNy0')
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

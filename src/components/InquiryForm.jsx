@@ -53,12 +53,12 @@ export default function InquiryForm() {
 
     emailjs.send(
       'service_cd7t4tp',
-      'template_9s3z9hq',
+      'template_g6j00fl',
       adminTemplateParams,
-      'YL1FWmjbDOmyOF0J0'
+      'Wg55VCxLMsJxxjNy0'
     ).then(
       () => {
-        emailjs.send('service_cd7t4tp', 'template_9s3z9hq', userConfirmationParams, 'YL1FWmjbDOmyOF0J0').catch(() => {})
+        emailjs.send('service_cd7t4tp', 'template_g6j00fl', userConfirmationParams, 'Wg55VCxLMsJxxjNy0').catch(() => {})
         setSending(false)
         setSubmitted(true)
       },

@@ -516,13 +516,13 @@ export default function ContactUS({ onNavigate }) {
     setEmailError(null)
     emailjs.send(
       'service_cd7t4tp',
-      'template_9s3z9hq',
+      'template_g6j00fl',
       adminTemplateParams,
-      'YL1FWmjbDOmyOF0J0'
+      'Wg55VCxLMsJxxjNy0'
     ).then(
       (res) => {
         console.log('EmailJS Admin Notification Sent:', res.status, res.text)
-        emailjs.send('service_cd7t4tp', 'template_9s3z9hq', userConfirmationParams, 'YL1FWmjbDOmyOF0J0')
+        emailjs.send('service_cd7t4tp', 'template_g6j00fl', userConfirmationParams, 'Wg55VCxLMsJxxjNy0')
           .then(uRes => console.log('EmailJS User Confirmation Sent:', uRes.status, uRes.text))
           .catch(uErr => console.warn('EmailJS User Confirmation Error:', uErr))
         setSending(false)
