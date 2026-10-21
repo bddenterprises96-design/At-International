@@ -34,31 +34,6 @@ const SOCIAL = [
     ),
   },
   {
-    name: 'WhatsApp',
-    href: 'https://wa.me/8618523210975',
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
-        <rect width="48" height="48" rx="12" fill="#25D366"/>
-        <path d="M24 8C15.163 8 8 15.163 8 24c0 2.813.729 5.463 2.006 7.769L8 40l8.48-2.218A15.934 15.934 0 0024 40c8.837 0 16-7.163 16-16S32.837 8 24 8zm0 29.333a13.29 13.29 0 01-6.777-1.856l-.486-.29-5.03 1.316 1.34-4.897-.317-.502A13.29 13.29 0 0110.667 24C10.667 16.636 16.636 10.667 24 10.667S37.333 16.636 37.333 24 31.364 37.333 24 37.333zm7.293-9.946c-.4-.2-2.368-1.167-2.734-1.3-.367-.133-.633-.2-.9.2-.267.4-1.033 1.3-1.267 1.567-.233.267-.467.3-.867.1-.4-.2-1.686-.621-3.21-1.978-1.186-1.057-1.987-2.363-2.22-2.763-.233-.4-.025-.616.175-.816.18-.18.4-.467.6-.7.2-.233.267-.4.4-.667.133-.267.067-.5-.033-.7-.1-.2-.9-2.167-1.233-2.967-.325-.779-.656-.674-.9-.686l-.767-.016c-.267 0-.7.1-1.067.5-.367.4-1.4 1.367-1.4 3.333 0 1.967 1.433 3.867 1.633 4.133.2.267 2.82 4.307 6.833 6.033.955.412 1.7.658 2.28.842.958.305 1.831.262 2.52.159.769-.115 2.368-.967 2.701-1.9.333-.933.333-1.733.233-1.9-.1-.167-.367-.267-.767-.467z" fill="white"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'WeChat',
-    href: 'https://weixin.qq.com/',
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
-        <rect width="48" height="48" rx="12" fill="#07C160"/>
-        <ellipse cx="18" cy="21" rx="9" ry="7" stroke="white" strokeWidth="2.5" fill="none"/>
-        <ellipse cx="30" cy="25" rx="9" ry="7" stroke="white" strokeWidth="2.5" fill="none"/>
-        <circle cx="15" cy="21" r="1.5" fill="white"/>
-        <circle cx="21" cy="21" r="1.5" fill="white"/>
-        <circle cx="27" cy="25" r="1.5" fill="white"/>
-        <circle cx="33" cy="25" r="1.5" fill="white"/>
-      </svg>
-    ),
-  },
-  {
     name: 'X',
     href: 'https://x.com/usman77765687?s=21&t=cTSAe3LIdfcsOj5pi9H0xg',
     icon: (
@@ -123,9 +98,28 @@ export default function ContactUS({ onNavigate }) {
   const [inquiryMode, setInquiryMode] = useState('standard')
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
+  const [uploadProgressText, setUploadProgressText] = useState('')
   const [emailError, setEmailError] = useState(null)
   const [errors, setErrors] = useState({})
   const [copiedField, setCopiedField] = useState(null)
+
+  // ── FILE A COMPLAINT MODAL & FORM STATE ──────────────────────
+  const [showComplaintModal, setShowComplaintModal] = useState(false)
+  const [complaintForm, setComplaintForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    orderNumber: '',
+    category: 'Product Quality Issue',
+    subject: '',
+    message: ''
+  })
+  const [complaintErrors, setComplaintErrors] = useState({})
+  const [complaintSending, setComplaintSending] = useState(false)
+  const [complaintSubmitted, setComplaintSubmitted] = useState(false)
+  const [complaintTicket, setComplaintTicket] = useState('')
+  const [complaintError, setComplaintError] = useState(null)
 
   // ── UPLOADED TECHNICAL DRAWINGS & CAD FILES ───────────────────
   const [uploadedFiles, setUploadedFiles] = useState([])
@@ -451,7 +445,81 @@ export default function ContactUS({ onNavigate }) {
     return newErrors
   }
 
-  const submit = () => {
+  const uploadSingleFile = async (file) => {
+    // 1. Primary endpoint: Same-origin /api/upload.php
+    // In production on Hostinger LiteSpeed, this saves directly to https://theatinternational.com/uploads/
+    // In local dev, Vite dev server middleware intercepts and saves to public/uploads/
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30s timeout
+
+      const res = await fetch('/api/upload.php', {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal,
+      })
+      clearTimeout(timeoutId)
+
+      if (res.ok) {
+        const json = await res.json()
+        if (json?.success && (json?.downloadUrl || json?.url)) {
+          const downloadUrl = json.downloadUrl || json.url
+          return {
+            name: file.name,
+            size: file.size,
+            success: true,
+            downloadUrl,
+            previewUrl: json.previewUrl || downloadUrl,
+          }
+        }
+      }
+    } catch (primaryErr) {
+      console.warn('Primary /api/upload.php endpoint error:', primaryErr)
+    }
+
+    // 2. Secondary endpoint: /api/upload (without .php)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const controller2 = new AbortController()
+      const timeoutId2 = setTimeout(() => controller2.abort(), 20000)
+
+      const res2 = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+        signal: controller2.signal,
+      })
+      clearTimeout(timeoutId2)
+
+      if (res2.ok) {
+        const json2 = await res2.json()
+        if (json2?.success && (json2?.downloadUrl || json2?.url)) {
+          const downloadUrl = json2.downloadUrl || json2.url
+          return {
+            name: file.name,
+            size: file.size,
+            success: true,
+            downloadUrl,
+            previewUrl: json2.previewUrl || downloadUrl,
+          }
+        }
+      }
+    } catch (secErr) {
+      console.warn('Secondary /api/upload endpoint error:', secErr)
+    }
+
+    return {
+      name: file.name,
+      size: file.size,
+      success: false,
+    }
+  }
+
+  const submit = async () => {
     const newErrors = validate()
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -459,16 +527,120 @@ export default function ContactUS({ onNavigate }) {
     }
     setErrors({})
     setSending(true)
+    setEmailError(null)
 
-    const selectedItemsSummary = selectedParts && selectedParts.length > 0
-      ? selectedParts.map(p => `- ${p.displayName || p.name} (${p.category || 'General'})`).join('\n')
-      : 'None'
+    const selectedItemsSummary =
+      selectedParts && selectedParts.length > 0
+        ? selectedParts.map((p) => `- ${p.displayName || p.name} (${p.category || 'General'})`).join('\n')
+        : 'None'
 
-    const filesSummary = uploadedFiles && uploadedFiles.length > 0
-      ? `\n\nUploaded Technical Drawings / CAD Files (${uploadedFiles.length}):\n` + uploadedFiles.map((f, i) => `  ${i + 1}. ${f.name} (${formatFileSize(f.size)})`).join('\n')
-      : ''
+    // 1. Primary Engine: Native Hostinger PHP mailer with REAL email file attachments
+    // Files are attached directly as MIME attachments to the email received at info@theatinternational.com
+    try {
+      setUploadProgressText(
+        uploadedFiles.length > 0
+          ? `Attaching ${uploadedFiles.length} file${uploadedFiles.length > 1 ? 's' : ''} to email...`
+          : 'Dispatching inquiry...'
+      )
 
-    // 1. Send Admin Notification Email to AT International (Hostinger SMTP)
+      const nativeFormData = new FormData()
+      nativeFormData.append('name', form.name)
+      nativeFormData.append('from_name', form.name)
+      nativeFormData.append('email', form.email)
+      nativeFormData.append('from_email', form.email)
+      nativeFormData.append('phone', form.phone || 'N/A')
+      nativeFormData.append('company', form.company || 'N/A')
+      nativeFormData.append('country', form.country || 'N/A')
+      nativeFormData.append('product', form.product || 'Not Specified')
+      nativeFormData.append('product_category', form.product || 'Not Specified')
+      nativeFormData.append('quantity', form.quantity || 'Not Specified')
+      nativeFormData.append('inquiry_mode', inquiryMode)
+      nativeFormData.append('message', form.message || 'No additional message provided')
+      nativeFormData.append('selected_parts', selectedItemsSummary)
+
+      if (uploadedFiles && uploadedFiles.length > 0) {
+        uploadedFiles.forEach((file, index) => {
+          nativeFormData.append(`file_${index}`, file)
+        })
+      }
+
+      // Check if running on production domain or server has send-inquiry.php
+      const nativeRes = await fetch('/api/send-inquiry.php', {
+        method: 'POST',
+        body: nativeFormData,
+      })
+
+      if (nativeRes.ok) {
+        const nativeJson = await nativeRes.json()
+        if (nativeJson?.success) {
+          console.log('Inquiry dispatched with native email attachments:', nativeJson)
+          setSending(false)
+          setUploadProgressText('')
+          setSubmitted(true)
+          handleClearSelectedParts()
+          return
+        }
+      }
+    } catch (nativeErr) {
+      console.warn('Native mail endpoint unavailable, proceeding with EmailJS fallback:', nativeErr)
+    }
+
+    // 2. Secondary Engine: EmailJS Fallback (for static CDN / local dev without PHP)
+    let uploadResults = []
+    if (uploadedFiles && uploadedFiles.length > 0) {
+      setUploadProgressText(`Uploading ${uploadedFiles.length} file${uploadedFiles.length > 1 ? 's' : ''} to storage...`)
+      try {
+        uploadResults = await Promise.all(uploadedFiles.map((f) => uploadSingleFile(f)))
+      } catch (uploadErr) {
+        console.warn('Batch upload warning:', uploadErr)
+      }
+    }
+
+    setUploadProgressText('Dispatching inquiry email...')
+
+    let filesSummary = ''
+    let uploadedFilesListText = 'None'
+
+    if (uploadResults && uploadResults.length > 0) {
+      uploadedFilesListText = uploadResults
+        .map((r, i) => {
+          if (r.success) {
+            return `${i + 1}. ${r.name} (${formatFileSize(r.size)}) -> ${r.downloadUrl}`
+          }
+          return `${i + 1}. ${r.name} (${formatFileSize(r.size)}) [Pending Direct Email]`
+        })
+        .join('\n')
+
+      filesSummary =
+        `\n\n` +
+        `==================================================\n` +
+        `📎 ATTACHED TECHNICAL DRAWINGS & CAD FILES (${uploadResults.length}):\n` +
+        `==================================================\n` +
+        uploadResults
+          .map((r, i) => {
+            if (r.success) {
+              const link = r.downloadUrl || r.url
+              return (
+                `FILE ${i + 1}: ${r.name} (${formatFileSize(r.size)})\n` +
+                `📥 DIRECT ACCESS & DOWNLOAD LINK:\n${link}\n`
+              )
+            } else {
+              return (
+                `FILE ${i + 1}: ${r.name} (${formatFileSize(r.size)})\n` +
+                `⚠️ Upload connection error. Customer requested to email file directly.\n`
+              )
+            }
+          })
+          .join('\n') +
+        `==================================================\n` +
+        `NOTE: Click the DIRECT ACCESS & DOWNLOAD LINK above to immediately open or download the customer's drawing/document to your device.\n` +
+        `==================================================`
+    } else if (uploadedFiles && uploadedFiles.length > 0) {
+      filesSummary =
+        `\n\nUploaded Technical Drawings / CAD Files (${uploadedFiles.length}):\n` +
+        uploadedFiles.map((f, i) => `  ${i + 1}. ${f.name} (${formatFileSize(f.size)})`).join('\n')
+    }
+
     const adminTemplateParams = {
       from_name: form.name,
       name: form.name,
@@ -492,13 +664,11 @@ export default function ContactUS({ onNavigate }) {
       message: `Client Name: ${form.name}\nClient Email: ${form.email}\nPhone/WhatsApp: ${form.phone || 'N/A'}\nCompany: ${form.company || 'N/A'}\nCountry: ${form.country || 'N/A'}\nProduct: ${form.product || 'Not Specified'}\nQuantity: ${form.quantity || 'Not Specified'}\nInquiry Mode: ${inquiryMode}${filesSummary}\n\nTechnical Requirements / Message:\n${form.message || 'No additional message provided'}\n\nSelected Parts Summary:\n${selectedItemsSummary}`,
       selected_items: selectedItemsSummary,
       uploaded_files_count: uploadedFiles.length,
-      uploaded_files_list: uploadedFiles.map(f => `${f.name} (${formatFileSize(f.size)})`).join(', ') || 'None',
-      name: form.name,
+      uploaded_files_list: uploadedFilesListText,
       title: `Inquiry from ${form.name} (${form.company || 'B2B Client'})`,
-      subject: `New Sourcing Inquiry from ${form.name}`
+      subject: `New Sourcing Inquiry from ${form.name}`,
     }
 
-    // 2. Send Auto-Reply Confirmation Email to User (form.email)
     const userConfirmationParams = {
       from_name: 'AT International Sourcing Desk',
       from_email: 'info@theatinternational.com',
@@ -513,34 +683,149 @@ export default function ContactUS({ onNavigate }) {
       reply_to: 'info@theatinternational.com',
       company: form.company || 'N/A',
       product_category: form.product || 'Not Specified',
-      message: `Dear ${form.name},\n\nThank you for reaching out to AT International. We have successfully received your inquiry regarding ${form.product || 'our products'}.\n\nOur sourcing engineering team is reviewing your requirements and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Team\ninfo@theatinternational.com`,
+      message: `Dear ${form.name},\n\nThank you for reaching out to AT International. We have successfully received your inquiry regarding ${form.product || 'our products'}${uploadedFiles.length > 0 ? ` along with your ${uploadedFiles.length} attached technical drawing/document(s)` : ''}.\n\nOur sourcing engineering team is reviewing your requirements and will follow up with you directly within 24 business hours.\n\nBest regards,\nAT International Sourcing Team\ninfo@theatinternational.com`,
       title: `Inquiry regarding ${form.product || 'Sourcing Products'}`,
-      subject: 'Inquiry Received - AT International'
+      subject: 'Inquiry Received - AT International',
     }
 
-    setEmailError(null)
-    emailjs.send(
-      'service_cd7t4tp',
-      'template_wdsnb2r',
-      adminTemplateParams,
-      'Wg55VCxLMsJxxjNy0'
-    ).then(
-      (res) => {
-        console.log('EmailJS Admin Notification Sent:', res.status, res.text)
+    emailjs
+      .send('service_cd7t4tp', 'template_wdsnb2r', adminTemplateParams, 'Wg55VCxLMsJxxjNy0')
+      .then(
+        (res) => {
+          console.log('EmailJS Admin Notification Sent:', res.status, res.text)
+          emailjs
+            .send('service_cd7t4tp', 'template_g6j00fl', userConfirmationParams, 'Wg55VCxLMsJxxjNy0')
+            .then((uRes) => console.log('EmailJS User Confirmation Sent:', uRes.status, uRes.text))
+            .catch((uErr) => console.warn('EmailJS User Confirmation Error:', uErr))
+          setSending(false)
+          setUploadProgressText('')
+          setSubmitted(true)
+          handleClearSelectedParts()
+        },
+        (error) => {
+          console.error('EmailJS Admin Notification Error:', error)
+          setSending(false)
+          setUploadProgressText('')
+          const errDetail = error?.text || error?.message || 'Check EmailJS Dashboard Service & Public Key'
+          setEmailError(`Email dispatch error (${errDetail}). Please verify EmailJS Dashboard setup or contact us directly via email.`)
+        }
+      )
+  }
+
+  const handleComplaintChange = (e) => {
+    const { name, value } = e.target
+    setComplaintForm((prev) => ({ ...prev, [name]: value }))
+    if (complaintErrors[name]) {
+      setComplaintErrors((prev) => {
+        const next = { ...prev }
+        delete next[name]
+        return next
+      })
+    }
+  }
+
+  const validateComplaint = () => {
+    const errs = {}
+    if (!complaintForm.name.trim()) errs.name = 'Full name is required'
+    if (!complaintForm.email.trim()) errs.email = 'Email address is required'
+    else if (!/\S+@\S+\.\S+/.test(complaintForm.email)) errs.email = 'Please enter a valid email address'
+    if (!complaintForm.subject.trim()) errs.subject = 'Subject is required'
+    if (!complaintForm.message.trim()) errs.message = 'Please describe your complaint'
+    return errs
+  }
+
+  const handleSendComplaint = () => {
+    const errs = validateComplaint()
+    if (Object.keys(errs).length > 0) {
+      setComplaintErrors(errs)
+      return
+    }
+    setComplaintErrors({})
+    setComplaintSending(true)
+    setComplaintError(null)
+
+    const ticketId = 'CMP-' + Math.floor(100000 + Math.random() * 900000)
+    setComplaintTicket(ticketId)
+
+    const adminComplaintParams = {
+      from_name: complaintForm.name,
+      name: complaintForm.name,
+      to_name: 'AT International Grievance Desk',
+      to_email: 'info@theatinternational.com',
+      recipient_email: 'info@theatinternational.com',
+      email: complaintForm.email,
+      from_email: complaintForm.email,
+      reply_to: complaintForm.email,
+      user_email: complaintForm.email,
+      customer_email: complaintForm.email,
+      client_email: complaintForm.email,
+      sender_email: complaintForm.email,
+      contact_email: complaintForm.email,
+      company: complaintForm.company || 'N/A',
+      phone: complaintForm.phone || 'N/A',
+      country: 'N/A',
+      inquiry_mode: 'Formal Customer Complaint',
+      product_category: complaintForm.category,
+      quantity: complaintForm.orderNumber ? `Order #${complaintForm.orderNumber}` : 'N/A',
+      message: `[FORMAL CUSTOMER COMPLAINT - TICKET: ${ticketId}]\n\nComplainant: ${complaintForm.name}\nEmail: ${complaintForm.email}\nPhone: ${complaintForm.phone || 'N/A'}\nCompany: ${complaintForm.company || 'N/A'}\nOrder/PO #: ${complaintForm.orderNumber || 'N/A'}\nCategory: ${complaintForm.category}\nSubject: ${complaintForm.subject}\n\nComplaint Description:\n${complaintForm.message}`,
+      selected_items: `Ticket: ${ticketId} | Order #: ${complaintForm.orderNumber || 'N/A'}`,
+      uploaded_files_count: 0,
+      uploaded_files_list: 'None',
+      title: `[COMPLAINT ${ticketId}] ${complaintForm.subject}`,
+      subject: `[COMPLAINT ${ticketId}] ${complaintForm.subject}`
+    }
+
+    const userConfirmationParams = {
+      from_name: 'AT International Support & Grievance Desk',
+      from_email: 'info@theatinternational.com',
+      to_name: complaintForm.name,
+      name: complaintForm.name,
+      to_email: complaintForm.email,
+      recipient_email: complaintForm.email,
+      user_email: complaintForm.email,
+      customer_email: complaintForm.email,
+      client_email: complaintForm.email,
+      email: complaintForm.email,
+      reply_to: 'info@theatinternational.com',
+      company: complaintForm.company || 'N/A',
+      product_category: complaintForm.category,
+      message: `Dear ${complaintForm.name},\n\nWe have received your formal complaint (Ticket: ${ticketId}) regarding "${complaintForm.subject}".\n\nYour complaint has been logged and escalated to our Quality Assurance and Management team. We take every grievance seriously and will investigate thoroughly.\n\nA representative will reply directly to this email within 24 business hours with an update or resolution.\n\nBest regards,\nCustomer Care & Grievance Team\nAT International\ninfo@theatinternational.com`,
+      title: `Complaint Acknowledgment [${ticketId}]`,
+      subject: `Complaint Acknowledgment [${ticketId}] - AT International`
+    }
+
+    emailjs.send('service_cd7t4tp', 'template_wdsnb2r', adminComplaintParams, 'Wg55VCxLMsJxxjNy0')
+      .then((res) => {
+        console.log('Complaint Email Sent:', res.status, res.text)
         emailjs.send('service_cd7t4tp', 'template_g6j00fl', userConfirmationParams, 'Wg55VCxLMsJxxjNy0')
-          .then(uRes => console.log('EmailJS User Confirmation Sent:', uRes.status, uRes.text))
-          .catch(uErr => console.warn('EmailJS User Confirmation Error:', uErr))
-        setSending(false)
-        setSubmitted(true)
-        handleClearSelectedParts()
-      },
-      (error) => {
-        console.error('EmailJS Admin Notification Error:', error)
-        setSending(false)
-        const errDetail = error?.text || error?.message || 'Check EmailJS Dashboard Service & Public Key'
-        setEmailError(`Email dispatch error (${errDetail}). Please verify EmailJS Dashboard setup or contact us directly via email.`)
-      }
-    )
+          .then(uRes => console.log('Complaint Auto-Reply Sent:', uRes.status))
+          .catch(uErr => console.warn('Complaint Auto-Reply Err:', uErr))
+        setComplaintSending(false)
+        setComplaintSubmitted(true)
+      })
+      .catch((err) => {
+        console.error('Complaint Send Error:', err)
+        setComplaintSending(false)
+        const errDetail = err?.text || err?.message || 'Email dispatch failed'
+        setComplaintError(`Unable to send complaint (${errDetail}). You can also send an email directly using the link below.`)
+      })
+  }
+
+  const resetComplaintForm = () => {
+    setComplaintForm({
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      orderNumber: '',
+      category: 'Product Quality Issue',
+      subject: '',
+      message: ''
+    })
+    setComplaintErrors({})
+    setComplaintSubmitted(false)
+    setComplaintSending(false)
+    setComplaintError(null)
   }
 
   const copyToClipboard = (text, fieldName) => {
@@ -780,7 +1065,7 @@ export default function ContactUS({ onNavigate }) {
                 <p className="text-[#505f76] text-xs">Find us on social media for company updates and product videos</p>
               </div>
 
-              <div className="grid grid-cols-4 gap-4 mt-6">
+              <div className="grid grid-cols-3 gap-4 mt-6">
                 {SOCIAL.map((s) => (
                   <a
                     key={s.name}
@@ -799,6 +1084,48 @@ export default function ContactUS({ onNavigate }) {
                   </a>
                 ))}
               </div>
+            </div>
+
+            {/* BOX 3: FILE A COMPLAINT */}
+            <div className="bg-white border border-[#c5c6cd] rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 text-red-700 text-[10px] font-bold uppercase tracking-wider mb-2 border border-red-200">
+                    <span className="material-symbols-outlined text-xs">report_problem</span>
+                    Customer Grievance Desk
+                  </span>
+                  <h3 className="font-bold text-[#005691] text-xl">File a Complaint</h3>
+                  <p className="text-[#505f76] text-xs mt-1 leading-relaxed">
+                    Have an issue with your order, product quality, or delivery? File a complaint directly to our executive support team.
+                  </p>
+                </div>
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#005691] to-[#003b64] text-white flex items-center justify-center flex-shrink-0 shadow-md ml-3">
+                  <span className="material-symbols-outlined text-2xl">mail</span>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100 mb-5">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#005691] mb-0.5">
+                  <span className="material-symbols-outlined text-base">support_agent</span>
+                  Direct Executive Resolution
+                </div>
+                <p className="text-[11px] text-[#505f76] leading-snug">
+                  Complaints are reviewed by our senior management and answered within 24 business hours.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  resetComplaintForm()
+                  setShowComplaintModal(true)
+                }}
+                className="w-full bg-[#005691] hover:bg-[#004370] text-white py-3.5 px-5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] duration-150 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg">edit_note</span>
+                <span>File a Complaint</span>
+                <span className="material-symbols-outlined text-sm ml-auto opacity-70">open_in_new</span>
+              </button>
             </div>
 
           </div>
@@ -1230,7 +1557,7 @@ export default function ContactUS({ onNavigate }) {
                     {sending ? (
                       <>
                         <span className="material-symbols-outlined text-xl animate-spin">sync</span>
-                        Sending Email...
+                        {uploadProgressText || 'Sending Email...'}
                       </>
                     ) : (
                       <>
@@ -1260,6 +1587,270 @@ export default function ContactUS({ onNavigate }) {
 
         </div>
       </section>
+
+      {/* ── MAIL DESIGN WINDOW MODAL: FILE A COMPLAINT ── */}
+      {showComplaintModal && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-sm animate-fadeIn"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowComplaintModal(false)
+            }
+          }}
+        >
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-300 w-full max-w-2xl overflow-hidden flex flex-col max-h-[92vh]">
+            
+            {/* Window Title Bar (Email Client Aesthetic) */}
+            <div className="bg-[#1e293b] text-white px-4 py-3 flex items-center justify-between select-none border-b border-gray-700">
+              <div className="flex items-center gap-3">
+                {/* Traffic Light Buttons */}
+                <div className="flex items-center gap-1.5">
+                  <button 
+                    type="button"
+                    onClick={() => setShowComplaintModal(false)}
+                    className="w-3 h-3 rounded-full bg-[#ff5f56] hover:opacity-80 transition-opacity cursor-pointer border border-[#e0443e]"
+                    title="Close Window"
+                  />
+                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123] opacity-80" />
+                  <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29] opacity-80" />
+                </div>
+                <div className="flex items-center gap-2 pl-2 border-l border-gray-600">
+                  <span className="material-symbols-outlined text-base text-blue-400">mark_email_unread</span>
+                  <span className="text-xs sm:text-sm font-semibold tracking-wide">New Message — File a Formal Complaint</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowComplaintModal(false)}
+                className="w-7 h-7 rounded-lg hover:bg-white/10 text-gray-300 hover:text-white flex items-center justify-center transition-colors text-sm cursor-pointer"
+                title="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {complaintSubmitted ? (
+              /* Success Screen inside Mail Window */
+              <div className="p-8 sm:p-12 text-center flex-1 flex flex-col items-center justify-center">
+                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                  <span className="material-symbols-outlined text-4xl">check_circle</span>
+                </div>
+                <h4 className="text-2xl font-bold text-[#005691] mb-2">Complaint Submitted Successfully</h4>
+                <div className="inline-block px-3 py-1 bg-gray-100 border border-gray-200 rounded-lg text-xs font-mono font-bold text-gray-700 mb-4">
+                  Reference: {complaintTicket}
+                </div>
+                <p className="text-gray-600 text-sm max-w-md mx-auto mb-6 leading-relaxed">
+                  Thank you, <strong className="text-gray-900">{complaintForm.name}</strong>. Your complaint has been delivered to <strong>info@theatinternational.com</strong>. An automated confirmation receipt has also been dispatched to <strong>{complaintForm.email}</strong>.
+                </p>
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 max-w-md mb-6 text-left flex items-start gap-2">
+                  <span className="material-symbols-outlined text-amber-600 text-base flex-shrink-0 mt-0.5">info</span>
+                  <span>Our executive grievance committee reviews complaints daily. You will receive an official response and resolution ticket within 24 business hours.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowComplaintModal(false)
+                    resetComplaintForm()
+                  }}
+                  className="bg-[#005691] text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-[#004370] transition-all shadow-md cursor-pointer"
+                >
+                  Close Window
+                </button>
+              </div>
+            ) : (
+              /* Email Compose Form */
+              <div className="flex-1 flex flex-col overflow-y-auto">
+                
+                {/* Mail Header Fields */}
+                <div className="divide-y divide-gray-100 text-xs sm:text-sm bg-gray-50/50">
+                  
+                  {/* To: Field */}
+                  <div className="px-4 py-2.5 flex items-center gap-3">
+                    <span className="w-16 text-gray-400 font-bold uppercase text-[11px] select-none">To:</span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 bg-[#005691]/10 text-[#005691] font-semibold px-2.5 py-1 rounded-md text-xs border border-[#005691]/20">
+                        <span className="material-symbols-outlined text-xs">verified</span>
+                        AT International Grievance Desk
+                        <span className="text-gray-500 font-mono text-[10px]">&lt;info@theatinternational.com&gt;</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* From Name & Email Fields */}
+                  <div className="px-4 py-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                    <span className="w-16 text-gray-400 font-bold uppercase text-[11px] select-none">From:</span>
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div>
+                        <input
+                          type="text"
+                          name="name"
+                          value={complaintForm.name}
+                          onChange={handleComplaintChange}
+                          placeholder="Your Full Name *"
+                          className={`w-full px-2.5 py-1.5 bg-white border ${complaintErrors.name ? 'border-red-500 bg-red-50/30' : 'border-gray-200'} rounded-lg text-xs text-gray-900 focus:outline-none focus:border-[#005691]`}
+                        />
+                        {complaintErrors.name && (
+                          <p className="text-[10px] text-red-600 mt-0.5">{complaintErrors.name}</p>
+                        )}
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={complaintForm.email}
+                          onChange={handleComplaintChange}
+                          placeholder="Your Email Address *"
+                          className={`w-full px-2.5 py-1.5 bg-white border ${complaintErrors.email ? 'border-red-500 bg-red-50/30' : 'border-gray-200'} rounded-lg text-xs text-gray-900 focus:outline-none focus:border-[#005691]`}
+                        />
+                        {complaintErrors.email && (
+                          <p className="text-[10px] text-red-600 mt-0.5">{complaintErrors.email}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Phone & Order # Fields */}
+                  <div className="px-4 py-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                    <span className="w-16 text-gray-400 font-bold uppercase text-[11px] select-none">Details:</span>
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        name="phone"
+                        value={complaintForm.phone}
+                        onChange={handleComplaintChange}
+                        placeholder="Phone / WhatsApp (Optional)"
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 focus:outline-none focus:border-[#005691]"
+                      />
+                      <input
+                        type="text"
+                        name="orderNumber"
+                        value={complaintForm.orderNumber}
+                        onChange={handleComplaintChange}
+                        placeholder="Order / Invoice / BL # (If applicable)"
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 focus:outline-none focus:border-[#005691]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Category Field */}
+                  <div className="px-4 py-2 flex items-center gap-3">
+                    <span className="w-16 text-gray-400 font-bold uppercase text-[11px] select-none">Issue:</span>
+                    <div className="flex-1">
+                      <select
+                        name="category"
+                        value={complaintForm.category}
+                        onChange={handleComplaintChange}
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-200 rounded-lg text-xs text-gray-800 font-medium focus:outline-none focus:border-[#005691]"
+                      >
+                        <option value="Product Quality Issue">Product Quality / Defective Items</option>
+                        <option value="Shipment & Delivery Delay">Shipment & Delivery Delay</option>
+                        <option value="Incorrect Items or Quantity">Incorrect Items or Missing Quantity</option>
+                        <option value="Packaging & Transit Damage">Packaging & Transit Damage</option>
+                        <option value="Specification Mismatch to Drawings">Specification Mismatch to Drawings</option>
+                        <option value="Customer Service / Communication">Customer Service / Communication</option>
+                        <option value="Other Grievance">Other Grievance</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Subject Field */}
+                  <div className="px-4 py-2 flex items-center gap-3">
+                    <span className="w-16 text-gray-400 font-bold uppercase text-[11px] select-none">Subject:</span>
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        name="subject"
+                        value={complaintForm.subject}
+                        onChange={handleComplaintChange}
+                        placeholder="Brief summary of your complaint *"
+                        className={`w-full px-2.5 py-1.5 bg-white border ${complaintErrors.subject ? 'border-red-500 bg-red-50/30' : 'border-gray-200'} rounded-lg text-xs text-gray-900 focus:outline-none focus:border-[#005691] font-semibold`}
+                      />
+                      {complaintErrors.subject && (
+                        <p className="text-[10px] text-red-600 mt-0.5">{complaintErrors.subject}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Email Formatting Toolbar Mock */}
+                <div className="bg-gray-100/80 px-4 py-1.5 border-y border-gray-200 flex items-center gap-3 text-gray-500 text-xs select-none">
+                  <span className="font-bold text-[11px] text-gray-700">Write Complaint</span>
+                  <div className="h-4 w-px bg-gray-300" />
+                  <span className="text-[11px] text-gray-500">Provide specific part numbers, batch details, and what resolution you expect.</span>
+                </div>
+
+                {/* Mail Body Editor (Textarea) */}
+                <div className="p-4 flex-1 flex flex-col">
+                  <textarea
+                    name="message"
+                    rows={7}
+                    value={complaintForm.message}
+                    onChange={handleComplaintChange}
+                    placeholder="Describe the complaint in detail:&#10;1. What went wrong?&#10;2. Which parts or order were affected?&#10;3. Desired resolution (e.g., replacement, refund, technical review)..."
+                    className={`w-full flex-1 p-3 bg-white border ${complaintErrors.message ? 'border-red-500 bg-red-50/30' : 'border-gray-200'} rounded-xl text-xs sm:text-sm text-gray-900 leading-relaxed focus:outline-none focus:border-[#005691] resize-none font-normal`}
+                  />
+                  {complaintErrors.message && (
+                    <p className="text-[11px] text-red-600 mt-1">{complaintErrors.message}</p>
+                  )}
+                </div>
+
+                {/* Error Banner if EmailJS Fails */}
+                {complaintError && (
+                  <div className="mx-4 mb-3 p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700">
+                    <p className="font-semibold mb-1">{complaintError}</p>
+                    <a
+                      href={`mailto:info@theatinternational.com?subject=${encodeURIComponent(`[COMPLAINT] ${complaintForm.subject || 'Customer Complaint'}`)}&body=${encodeURIComponent(`Name: ${complaintForm.name}\nEmail: ${complaintForm.email}\nPhone: ${complaintForm.phone}\nOrder #: ${complaintForm.orderNumber}\nCategory: ${complaintForm.category}\n\nComplaint Message:\n${complaintForm.message}`)}`}
+                      className="inline-flex items-center gap-1 font-bold text-[#005691] underline hover:text-blue-900"
+                    >
+                      <span className="material-symbols-outlined text-xs">mail</span>
+                      Click here to send complaint directly via your email client
+                    </a>
+                  </div>
+                )}
+
+                {/* Window Bottom Actions Bar */}
+                <div className="bg-gray-100 px-4 py-3 border-t border-gray-200 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      disabled={complaintSending}
+                      onClick={handleSendComplaint}
+                      className="bg-[#005691] hover:bg-[#004370] text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md hover:shadow-lg disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                      {complaintSending ? (
+                        <>
+                          <span className="material-symbols-outlined text-base animate-spin">sync</span>
+                          <span>Sending Complaint...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="material-symbols-outlined text-base">send</span>
+                          <span>Send Complaint</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={complaintSending}
+                      onClick={() => setShowComplaintModal(false)}
+                      className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-lg text-xs font-semibold hover:bg-gray-200 transition-colors cursor-pointer"
+                    >
+                      Discard
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                    <span className="material-symbols-outlined text-xs text-emerald-600">lock</span>
+                    <span>Direct encrypted delivery to info@theatinternational.com</span>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
     </div>
   )
 }

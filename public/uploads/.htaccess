@@ -1,0 +1,13 @@
+# AT International - Technical Drawings & Uploads Protection
+# Prevent execution of scripts inside uploads directory
+<FilesMatch "\.(php|php3|php4|php5|phtml|phar|sh|py|pl|cgi|exe|bat)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow public viewing and downloading of images, documents, CAD, and archives
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+Options -Indexes
