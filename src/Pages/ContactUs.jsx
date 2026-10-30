@@ -45,7 +45,7 @@ const SOCIAL = [
   },
   {
     name: 'TikTok',
-    href: 'https://www.tiktok.com/@theatinternational?_r=1&_t=ZS-91prBFOzrPx',
+    href: 'https://www.tiktok.com/@theatinternational?_r=1&_t=ZS-9AvpR64BX8g',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#010101"/>
@@ -57,7 +57,7 @@ const SOCIAL = [
   },
   {
     name: 'YouTube',
-    href: 'https://youtube.com/@theatinternational?si=r6_DJ9WrRPxQ0msa',
+    href: 'https://youtube.com/@atinternational-c9s?si=mZJtYGRRjBrxsKnB',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#FF0000"/>
@@ -67,7 +67,7 @@ const SOCIAL = [
   },
   {
     name: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/theat-international-29b52a225',
+    href: 'https://www.linkedin.com/in/at-international-29b52a225/',
     icon: (
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="12" fill="#0A66C2"/>
